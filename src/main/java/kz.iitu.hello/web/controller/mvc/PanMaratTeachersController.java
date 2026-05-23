@@ -6,7 +6,7 @@ import kz.iitu.hello.service.PanMaratTeacherService;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
 import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
-import kz.iitu.hello.web.validations.TeacherFormValidator;
+import kz.iitu.hello.web.validations.PanMaratTeacherFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/teachers")
 public class PanMaratTeachersController {
     private final PanMaratTeacherService teacherService;
-    private final TeacherFormValidator teacherFormValidator;
+    private final PanMaratTeacherFormValidator teacherFormValidator;
 
     @GetMapping
     public String read(@RequestParam(name = "id", required = false) Long id,

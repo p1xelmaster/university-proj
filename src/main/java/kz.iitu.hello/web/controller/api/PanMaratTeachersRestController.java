@@ -8,7 +8,7 @@ import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
 import kz.iitu.hello.web.dto.view.PanMaratTeacherViewDto;
 import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
-import kz.iitu.hello.web.validations.TeacherFormValidator;
+import kz.iitu.hello.web.validations.PanMaratTeacherFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Teachers", description = "CRUD operations for teachers (ADMIN only)")
 public class PanMaratTeachersRestController {
     private final PanMaratTeacherService teacherService;
-    private final TeacherFormValidator teacherFormValidator;
+    private final PanMaratTeacherFormValidator teacherFormValidator;
 
     @GetMapping
     @Operation(summary = "Search teachers", description = "Search and paginate teachers with optional filters")

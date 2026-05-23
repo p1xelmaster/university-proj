@@ -5,7 +5,7 @@ import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
 import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
-import kz.iitu.hello.web.validations.UserFormValidator;
+import kz.iitu.hello.web.validations.PanMaratUserFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class PanMaratUsersController {
     private final PanMaratUserService userService;
-    private final UserFormValidator userFormValidator;
+    private final PanMaratUserFormValidator userFormValidator;
 
     @GetMapping
     public String read(@RequestParam(name = "id", required = false) Long id,
