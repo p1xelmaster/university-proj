@@ -9,7 +9,7 @@ import kz.iitu.hello.domain.repository.TeachersRepository;
 import kz.iitu.hello.domain.specification.CourseSpecification;
 import kz.iitu.hello.exception.CourseLimitExceededException;
 import kz.iitu.hello.exception.EntityNotFoundException;
-import kz.iitu.hello.web.converter.CourseConverter;
+import kz.iitu.hello.web.converter.PanMaratCourseConverter;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratStudentGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratTeacherGridDto;
@@ -37,7 +37,7 @@ public class PanMaratCourseService {
     private final CoursesRepository coursesRepository;
     private final TeachersRepository teachersRepository;
     private final StudentsRepository studentsRepository;
-    private final CourseConverter courseConverter;
+    private final PanMaratCourseConverter courseConverter;
 
     @Transactional(readOnly = true)
     public Page<PanMaratCourseViewDto> search(PanMaratCourseSearchForm form, Pageable pageable) {

@@ -8,7 +8,7 @@ import kz.iitu.hello.domain.repository.CoursesRepository;
 import kz.iitu.hello.domain.repository.StudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
-import kz.iitu.hello.web.converter.StudentConverter;
+import kz.iitu.hello.web.converter.PanMaratStudentConverter;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
@@ -44,7 +44,7 @@ public class PanMaratStudentService {
     private final UsersRepository userRepository;
     private final CoursesRepository courseRepository;
     private final StudentsMyBatisMapper studentsMyBatisMapper;
-    private final StudentConverter studentConverter;
+    private final PanMaratStudentConverter studentConverter;
 
     @Transactional(readOnly = true)
     public Page<PanMaratStudentViewDto> search(PanMaratStudentSearchForm form, Pageable pageable) {

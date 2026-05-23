@@ -4,7 +4,7 @@ import kz.iitu.hello.domain.entity.User;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
-import kz.iitu.hello.web.converter.UserConverter;
+import kz.iitu.hello.web.converter.PanMaratUserConverter;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
 import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
@@ -27,7 +27,7 @@ public class PanMaratUserService {
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("id", "userName", "email", "createdAt", "role");
 
     private final UsersRepository usersRepository;
-    private final UserConverter userConverter;
+    private final PanMaratUserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)

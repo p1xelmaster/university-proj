@@ -8,7 +8,7 @@ import kz.iitu.hello.domain.repository.TeachersRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.BusinessException;
 import kz.iitu.hello.exception.EntityNotFoundException;
-import kz.iitu.hello.web.converter.TeacherConverter;
+import kz.iitu.hello.web.converter.PanMaratTeacherConverter;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
@@ -36,7 +36,7 @@ public class PanMaratTeacherService {
     private final TeachersRepository teachersRepository;
     private final UsersRepository usersRepository;
     private final CoursesRepository coursesRepository;
-    private final TeacherConverter teacherConverter;
+    private final PanMaratTeacherConverter teacherConverter;
 
     @Transactional(readOnly = true)
     public Page<PanMaratTeacherViewDto> search(PanMaratTeacherSearchForm form, Pageable pageable) {
