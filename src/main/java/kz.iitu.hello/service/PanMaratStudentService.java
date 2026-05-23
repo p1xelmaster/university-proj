@@ -1,8 +1,8 @@
 package kz.iitu.hello.service;
 
-import kz.iitu.hello.domain.entity.Course;
-import kz.iitu.hello.domain.entity.Student;
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratCourse;
+import kz.iitu.hello.domain.entity.PanMaratStudent;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.mapper.StudentsMyBatisMapper;
 import kz.iitu.hello.domain.repository.CoursesRepository;
 import kz.iitu.hello.domain.repository.StudentsRepository;
@@ -52,7 +52,7 @@ public class PanMaratStudentService {
         String sortBy = SORT_COLUMN_MAPPING.getOrDefault(requestedSortBy, SORT_COLUMN_MAPPING.get(DEFAULT_SORT));
         Sort.Direction direction = form.getSortDirection() == null ? Sort.Direction.ASC : form.getSortDirection();
 
-        List<Student> students = studentsMyBatisMapper.findStudents(
+        List<PanMaratStudent> students = studentsMyBatisMapper.findStudents(
                 form.getName(),
                 form.getGroupName(),
                 form.getAgeFrom(),
@@ -94,21 +94,21 @@ public class PanMaratStudentService {
     }
 
     public void create(PanMaratStudentFormDto form) {
-        Student student = new Student();
+        PanMaratStudent student = new PanMaratStudent();
         applyForm(form, student);
         studentRepository.save(student);
     }
 
     public void update(Long id, PanMaratStudentFormDto form) {
-        Student student = findById(id);
+        PanMaratStudent student = findById(id);
         applyForm(form, student);
         studentRepository.save(student);
     }
 
     public void delete(Long id) {
-        Student student = findById(id);
+        PanMaratStudent student = findById(id);
         if (student.getCourses() != null) {
-            for (Course course : student.getCourses()) {
+            for (PanMaratCourse course : student.getCourses()) {
                 if (course.getStudents() != null) {
                     course.getStudents().remove(student);
                 }
@@ -119,21 +119,21 @@ public class PanMaratStudentService {
     }
 
     @Transactional(readOnly = true)
-    public Student findById(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + id));
+    public PanMaratStudent findById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PanMaratStudent not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
-    public Student findByUserId(Long userId) {
+    public PanMaratStudent findByUserId(Long userId) {
         return studentRepository.findByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Student not found for user id: " + userId));
+                .orElseThrow(() -> new EntityNotFoundException("PanMaratStudent not found for user id: " + userId));
     }
 
-    private void applyForm(PanMaratStudentFormDto form, Student student) {
-        User user = userRepository.findById(form.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + form.getUserId()));
+    private void applyForm(PanMaratStudentFormDto form, PanMaratStudent student) {
+        PanMaratUser user = userRepository.findById(form.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found with id: " + form.getUserId()));
         List<Long> courseIds = form.getCourseIds();
-        Set<Course> courses = courseIds == null ? new HashSet<>() : new HashSet<>(courseRepository.findAllById(courseIds));
+        Set<PanMaratCourse> courses = courseIds == null ? new HashSet<>() : new HashSet<>(courseRepository.findAllById(courseIds));
         studentConverter.applyFormToEntity(form, student, user, courses);
     }
 }

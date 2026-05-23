@@ -14,8 +14,8 @@ public class PanMaratStudentFormDto {
 
     private Long id;
 
-    @NotBlank(message = "Student name is required")
-    @Size(min = 2, max = 50, message = "Student name must be between 2 and 50 characters")
+    @NotBlank(message = "PanMaratStudent name is required")
+    @Size(min = 2, max = 50, message = "PanMaratStudent name must be between 2 and 50 characters")
     private String studentName;
 
     @NotNull(message = "Age is required")
@@ -32,7 +32,7 @@ public class PanMaratStudentFormDto {
     @Size(min = 2, max = 30, message = "Group name must be between 2 and 30 characters")
     private String groupName;
 
-    @NotNull(message = "User is required")
+    @NotNull(message = "PanMaratUser is required")
     private Long userId;
 
     private List<Long> courseIds;

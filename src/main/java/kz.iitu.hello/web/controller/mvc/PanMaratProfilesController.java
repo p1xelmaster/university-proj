@@ -1,7 +1,7 @@
 package kz.iitu.hello.web.controller.mvc;
 
-import kz.iitu.hello.domain.entity.User;
-import kz.iitu.hello.domain.entity.UserFile;
+import kz.iitu.hello.domain.entity.PanMaratUser;
+import kz.iitu.hello.domain.entity.PanMaratUserFile;
 import kz.iitu.hello.service.PanMaratFileStorageService;
 import kz.iitu.hello.service.PanMaratStudentService;
 import kz.iitu.hello.service.PanMaratTeacherService;
@@ -28,7 +28,7 @@ public class PanMaratProfilesController {
 
     @GetMapping("/{userId}")
     public String profile(@PathVariable Long userId, Model model) {
-        User user = userService.findById(userId);
+        PanMaratUser user = userService.findById(userId);
         model.addAttribute("user", user);
 
         switch (user.getRole()) {
@@ -38,7 +38,7 @@ public class PanMaratProfilesController {
             }
         }
 
-        List<UserFile> avatars = fileStorageService.findByUserAndFileType(userId, AVATAR_TYPE);
+        List<PanMaratUserFile> avatars = fileStorageService.findByUserAndFileType(userId, AVATAR_TYPE);
         model.addAttribute("avatar", avatars.isEmpty() ? null : avatars.get(0));
         model.addAttribute("documents", fileStorageService.findByUserAndFileType(userId, DOCUMENT_TYPE));
         return "profiles";

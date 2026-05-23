@@ -1,8 +1,8 @@
 package kz.iitu.hello.service;
 
-import kz.iitu.hello.domain.entity.Course;
-import kz.iitu.hello.domain.entity.Student;
-import kz.iitu.hello.domain.entity.Teacher;
+import kz.iitu.hello.domain.entity.PanMaratCourse;
+import kz.iitu.hello.domain.entity.PanMaratStudent;
+import kz.iitu.hello.domain.entity.PanMaratTeacher;
 import kz.iitu.hello.domain.repository.CoursesRepository;
 import kz.iitu.hello.domain.repository.StudentsRepository;
 import kz.iitu.hello.domain.repository.TeachersRepository;
@@ -76,21 +76,21 @@ public class PanMaratCourseService {
     }
 
     public void create(PanMaratCourseFormDto form) {
-        Course course = new Course();
+        PanMaratCourse course = new PanMaratCourse();
         applyForm(form, course);
         coursesRepository.save(course);
     }
 
     public void update(Long id, PanMaratCourseFormDto form) {
-        Course course = findById(id);
+        PanMaratCourse course = findById(id);
         applyForm(form, course);
         coursesRepository.save(course);
     }
 
     public void delete(Long id) {
-        Course course = findById(id);
-        Set<Student> assignedStudents = new HashSet<>(course.getStudents());
-        for (Student student : assignedStudents) {
+        PanMaratCourse course = findById(id);
+        Set<PanMaratStudent> assignedStudents = new HashSet<>(course.getStudents());
+        for (PanMaratStudent student : assignedStudents) {
             student.getCourses().remove(course);
         }
         course.getStudents().clear();
@@ -98,33 +98,33 @@ public class PanMaratCourseService {
     }
 
     @Transactional(readOnly = true)
-    public Course findById(Long id) {
-        return coursesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + id));
+    public PanMaratCourse findById(Long id) {
+        return coursesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PanMaratCourse not found with id: " + id));
     }
 
-    private void applyForm(PanMaratCourseFormDto form, Course course) {
-        Teacher teacher = teachersRepository.findById(form.getTeacherId())
-                .orElseThrow(() -> new EntityNotFoundException("Teacher not found with id: " + form.getTeacherId()));
+    private void applyForm(PanMaratCourseFormDto form, PanMaratCourse course) {
+        PanMaratTeacher teacher = teachersRepository.findById(form.getTeacherId())
+                .orElseThrow(() -> new EntityNotFoundException("PanMaratTeacher not found with id: " + form.getTeacherId()));
 
         List<Long> studentIds = form.getStudentIds() == null ? List.of() : form.getStudentIds();
-        Set<Student> students = new HashSet<>(studentsRepository.findAllById(studentIds));
+        Set<PanMaratStudent> students = new HashSet<>(studentsRepository.findAllById(studentIds));
 
         if (students.size() != new HashSet<>(studentIds).size()) {
             throw new EntityNotFoundException("One or more students not found");
         }
 
         if (students.size() > form.getMaxStudents()) {
-            throw new CourseLimitExceededException("Student count exceeds maximum allowed for this course");
+            throw new CourseLimitExceededException("PanMaratStudent count exceeds maximum allowed for this course");
         }
 
-        Set<Student> oldStudents = new HashSet<>(course.getStudents());
-        for (Student oldStudent : oldStudents) {
+        Set<PanMaratStudent> oldStudents = new HashSet<>(course.getStudents());
+        for (PanMaratStudent oldStudent : oldStudents) {
             oldStudent.getCourses().remove(course);
         }
 
         courseConverter.applyFormToEntity(form, course, teacher, new HashSet<>());
 
-        for (Student student : students) {
+        for (PanMaratStudent student : students) {
             student.getCourses().add(course);
         }
 

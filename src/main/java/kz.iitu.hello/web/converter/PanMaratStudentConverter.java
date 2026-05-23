@@ -1,8 +1,8 @@
 package kz.iitu.hello.web.converter;
 
-import kz.iitu.hello.domain.entity.Course;
-import kz.iitu.hello.domain.entity.Student;
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratCourse;
+import kz.iitu.hello.domain.entity.PanMaratStudent;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class PanMaratStudentConverter {
 
-    public void applyFormToEntity(PanMaratStudentFormDto form, Student student, User user, java.util.Set<Course> courses) {
+    public void applyFormToEntity(PanMaratStudentFormDto form, PanMaratStudent student, PanMaratUser user, java.util.Set<PanMaratCourse> courses) {
         student.setStudentName(form.getStudentName());
         student.setAge(form.getAge());
         student.setGpa(form.getGpa());
@@ -24,7 +24,7 @@ public class PanMaratStudentConverter {
         student.setCourses(courses);
     }
 
-    public PanMaratStudentFormDto toFormDto(Student student) {
+    public PanMaratStudentFormDto toFormDto(PanMaratStudent student) {
         PanMaratStudentFormDto dto = new PanMaratStudentFormDto();
         dto.setId(student.getId());
         dto.setStudentName(student.getStudentName());
@@ -35,12 +35,12 @@ public class PanMaratStudentConverter {
             dto.setUserId(student.getUser().getId());
         }
         if (student.getCourses() != null) {
-            dto.setCourseIds(student.getCourses().stream().map(Course::getId).toList());
+            dto.setCourseIds(student.getCourses().stream().map(PanMaratCourse::getId).toList());
         }
         return dto;
     }
 
-    public PanMaratStudentViewDto toViewDto(Student student) {
+    public PanMaratStudentViewDto toViewDto(PanMaratStudent student) {
         PanMaratStudentViewDto dto = new PanMaratStudentViewDto();
         dto.setId(student.getId());
         dto.setStudentName(student.getStudentName());
@@ -52,7 +52,7 @@ public class PanMaratStudentConverter {
         }
         List<PanMaratCourseGridDto> courseDtos = new ArrayList<>();
         if (student.getCourses() != null) {
-            for (Course course : student.getCourses()) {
+            for (PanMaratCourse course : student.getCourses()) {
                 courseDtos.add(toCourseGridDto(course));
             }
         }
@@ -60,7 +60,7 @@ public class PanMaratStudentConverter {
         return dto;
     }
 
-    public PanMaratUserGridDto toUserGridDto(User user) {
+    public PanMaratUserGridDto toUserGridDto(PanMaratUser user) {
         if (user == null) {
             return null;
         }
@@ -72,7 +72,7 @@ public class PanMaratStudentConverter {
         return dto;
     }
 
-    public PanMaratCourseGridDto toCourseGridDto(Course course) {
+    public PanMaratCourseGridDto toCourseGridDto(PanMaratCourse course) {
         if (course == null) {
             return null;
         }

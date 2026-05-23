@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.converter;
 
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
 import org.springframework.stereotype.Component;
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class PanMaratUserConverter {
 
-    public void applyFormToEntity(PanMaratUserFormDto form, User user) {
+    public void applyFormToEntity(PanMaratUserFormDto form, PanMaratUser user) {
         user.setUserName(form.getUserName());
         user.setEmail(form.getEmail());
         user.setRole(form.getRole());
     }
 
-    public PanMaratUserFormDto toFormDto(User user) {
+    public PanMaratUserFormDto toFormDto(PanMaratUser user) {
         PanMaratUserFormDto dto = new PanMaratUserFormDto();
         dto.setId(user.getId());
         dto.setUserName(user.getUserName());
@@ -23,7 +23,7 @@ public class PanMaratUserConverter {
         return dto;
     }
 
-    public PanMaratUserGridDto toGridDto(User user) {
+    public PanMaratUserGridDto toGridDto(PanMaratUser user) {
         PanMaratUserGridDto dto = new PanMaratUserGridDto();
         dto.setId(user.getId());
         dto.setUserName(user.getUserName());

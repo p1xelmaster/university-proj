@@ -13,8 +13,8 @@ import java.util.List;
 public class PanMaratCourseFormDto {
 
     private Long id;
-    @NotBlank(message = "Course name is required")
-    @Size(min = 2, max = 100, message = "Course name must be between 2 and 100 characters")
+    @NotBlank(message = "PanMaratCourse name is required")
+    @Size(min = 2, max = 100, message = "PanMaratCourse name must be between 2 and 100 characters")
     private String courseName;
     @NotNull(message = "Credits is required")
     @Min(value = 1, message = "Credits must be at least 1")
@@ -23,7 +23,7 @@ public class PanMaratCourseFormDto {
     @NotNull(message = "Max students is required")
     @Min(value = 1, message = "Max students must be positive")
     private Integer maxStudents;
-    @NotNull(message = "Teacher is required")
+    @NotNull(message = "PanMaratTeacher is required")
     private Long teacherId;
     @Size(max = 1000, message = "Too many students selected")
     private List<Long> studentIds;

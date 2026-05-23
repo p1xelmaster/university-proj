@@ -13,7 +13,7 @@ public class PanMaratUserFormValidator {
 
     public void validate(PanMaratUserFormDto form, BindingResult bindingResult, Long currentId) {
         if (form.getUserName() == null || form.getUserName().isBlank()) {
-            bindingResult.rejectValue("userName", "userName.blank", "User name is required");
+            bindingResult.rejectValue("userName", "userName.blank", "PanMaratUser name is required");
         }
         if (form.getEmail() == null || form.getEmail().isBlank()) {
             bindingResult.rejectValue("email", "email.blank", "Email is required");
@@ -34,7 +34,7 @@ public class PanMaratUserFormValidator {
                     ? usersRepository.existsByUserNameIgnoreCase(form.getUserName())
                     : usersRepository.existsByUserNameIgnoreCaseAndIdNot(form.getUserName(), currentId);
             if (userNameTaken) {
-                bindingResult.rejectValue("userName", "userName.duplicate", "User with this username already exists");
+                bindingResult.rejectValue("userName", "userName.duplicate", "PanMaratUser with this username already exists");
             }
         }
 
@@ -43,7 +43,7 @@ public class PanMaratUserFormValidator {
                     ? usersRepository.existsByEmailIgnoreCase(form.getEmail())
                     : usersRepository.existsByEmailIgnoreCaseAndIdNot(form.getEmail(), currentId);
             if (emailTaken) {
-                bindingResult.rejectValue("email", "email.duplicate", "User with this email already exists");
+                bindingResult.rejectValue("email", "email.duplicate", "PanMaratUser with this email already exists");
             }
         }
     }

@@ -1,6 +1,6 @@
 package kz.iitu.hello.service;
 
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
@@ -58,7 +58,7 @@ public class PanMaratUserService {
     }
 
     public void create(PanMaratUserFormDto form) {
-        User user = new User();
+        PanMaratUser user = new PanMaratUser();
         userConverter.applyFormToEntity(form, user);
         if (form.getPassword() != null && !form.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(form.getPassword()));
@@ -67,7 +67,7 @@ public class PanMaratUserService {
     }
 
     public void update(Long id, PanMaratUserFormDto form) {
-        User user = findById(id);
+        PanMaratUser user = findById(id);
         userConverter.applyFormToEntity(form, user);
         if (form.getPassword() != null && !form.getPassword().isBlank()) {
             user.setPassword(passwordEncoder.encode(form.getPassword()));
@@ -80,14 +80,14 @@ public class PanMaratUserService {
     }
 
     @Transactional(readOnly = true)
-    public User findById(Long id) {
+    public PanMaratUser findById(Long id) {
         return usersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
-    public User findByUsername(String username) {
+    public PanMaratUser findByUsername(String username) {
         return usersRepository.findByUserName(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found: " + username));
+                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found: " + username));
     }
 }

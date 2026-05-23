@@ -2,8 +2,8 @@ package kz.iitu.hello.web.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kz.iitu.hello.domain.entity.User;
-import kz.iitu.hello.domain.entity.UserFile;
+import kz.iitu.hello.domain.entity.PanMaratUser;
+import kz.iitu.hello.domain.entity.PanMaratUserFile;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.service.PanMaratFileStorageService;
 import kz.iitu.hello.service.PanMaratUserService;
@@ -30,18 +30,18 @@ public class PanMaratProfilesRestController {
 
     @PostMapping("/{userId}/avatar")
     @Operation(summary = "Upload avatar", description = "Upload an avatar image for a user (owner or admin)")
-    public UserFile uploadAvatar(@PathVariable Long userId,
-                                 @RequestParam("file") MultipartFile file,
-                                 Authentication authentication) {
+    public PanMaratUserFile uploadAvatar(@PathVariable Long userId,
+                                         @RequestParam("file") MultipartFile file,
+                                         Authentication authentication) {
         verifyOwnerOrAdmin(userId, authentication);
         return fileStorageService.saveAvatar(userId, file);
     }
 
     @PostMapping("/{userId}/documents")
     @Operation(summary = "Upload documents", description = "Upload one or more documents for a user (owner or admin)")
-    public List<UserFile> uploadDocuments(@PathVariable Long userId,
-                                          @RequestParam("files") List<MultipartFile> files,
-                                          Authentication authentication) {
+    public List<PanMaratUserFile> uploadDocuments(@PathVariable Long userId,
+                                                  @RequestParam("files") List<MultipartFile> files,
+                                                  Authentication authentication) {
         verifyOwnerOrAdmin(userId, authentication);
         return fileStorageService.saveDocuments(userId, files);
     }
@@ -49,7 +49,7 @@ public class PanMaratProfilesRestController {
     @GetMapping("/files/{fileId}")
     @Operation(summary = "Download file", description = "Download a previously uploaded file by ID")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long fileId) {
-        UserFile userFile = fileStorageService.getFile(fileId);
+        PanMaratUserFile userFile = fileStorageService.getFile(fileId);
         Resource resource = fileStorageService.loadFileAsResource(fileId);
 
         MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
@@ -72,7 +72,7 @@ public class PanMaratProfilesRestController {
     }
 
     private void verifyOwnerOrAdmin(Long userId, Authentication authentication) {
-        User currentUser = userService.findByUsername(authentication.getName());
+        PanMaratUser currentUser = userService.findByUsername(authentication.getName());
         if (!currentUser.getId().equals(userId) && currentUser.getRole() != UserRole.ADMIN) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied: you can only modify your own profile");
         }

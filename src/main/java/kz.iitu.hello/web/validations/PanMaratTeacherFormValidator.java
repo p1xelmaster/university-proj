@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.validations;
 
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.TeachersRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
@@ -23,7 +23,7 @@ public class PanMaratTeacherFormValidator {
             return;
         }
 
-        Optional<User> userOpt = usersRepository.findById(form.getUserId());
+        Optional<PanMaratUser> userOpt = usersRepository.findById(form.getUserId());
         if (userOpt.isEmpty()) {
             bindingResult.rejectValue("userId", "userId.notFound", "Selected user does not exist");
             return;

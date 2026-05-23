@@ -1,7 +1,7 @@
 package kz.iitu.hello.service;
 
-import kz.iitu.hello.domain.entity.User;
-import kz.iitu.hello.domain.entity.UserFile;
+import kz.iitu.hello.domain.entity.PanMaratUser;
+import kz.iitu.hello.domain.entity.PanMaratUserFile;
 import kz.iitu.hello.domain.repository.UserFileRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -37,26 +37,26 @@ public class PanMaratFileStorageService {
     private final PanMaratUserService userService;
     private final UserFileRepository userFileRepository;
 
-    public UserFile saveAvatar(Long userId, MultipartFile file) {
+    public PanMaratUserFile saveAvatar(Long userId, MultipartFile file) {
         validateNotEmpty(file, "Avatar file is required");
         validateFileSize(file);
         validateAvatarContentType(file.getContentType());
 
-        User user = userService.findById(userId);
-        List<UserFile> oldAvatars = userFileRepository.findByUserIdAndFileType(userId, AVATAR_TYPE);
+        PanMaratUser user = userService.findById(userId);
+        List<PanMaratUserFile> oldAvatars = userFileRepository.findByUserIdAndFileType(userId, AVATAR_TYPE);
 
-        UserFile newAvatar = saveFile(user, file, AVATAR_TYPE);
+        PanMaratUserFile newAvatar = saveFile(user, file, AVATAR_TYPE);
         oldAvatars.forEach(this::deleteFileInternal);
 
         return newAvatar;
     }
 
-    public List<UserFile> saveDocuments(Long userId, List<MultipartFile> files) {
+    public List<PanMaratUserFile> saveDocuments(Long userId, List<MultipartFile> files) {
         if (files == null || files.isEmpty()) {
             throw new IllegalArgumentException("At least one document file is required");
         }
 
-        User user = userService.findById(userId);
+        PanMaratUser user = userService.findById(userId);
         return files.stream()
                 .map(file -> {
                     validateNotEmpty(file, "Document file is required");
@@ -68,19 +68,19 @@ public class PanMaratFileStorageService {
     }
 
     public void deleteFile(Long fileId) {
-        UserFile userFile = getFile(fileId);
+        PanMaratUserFile userFile = getFile(fileId);
         deleteFileInternal(userFile);
     }
 
     @Transactional(readOnly = true)
-    public UserFile getFile(Long fileId) {
+    public PanMaratUserFile getFile(Long fileId) {
         return userFileRepository.findById(fileId)
                 .orElseThrow(() -> new EntityNotFoundException("File not found with id: " + fileId));
     }
 
     @Transactional(readOnly = true)
     public Resource loadFileAsResource(Long fileId) {
-        UserFile userFile = getFile(fileId);
+        PanMaratUserFile userFile = getFile(fileId);
 
         try {
             Path filePath = Paths.get(userFile.getPath()).normalize();
@@ -95,12 +95,12 @@ public class PanMaratFileStorageService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserFile> findByUserAndFileType(Long userId, String fileType) {
+    public List<PanMaratUserFile> findByUserAndFileType(Long userId, String fileType) {
         userService.findById(userId);
         return userFileRepository.findByUserIdAndFileType(userId, fileType);
     }
 
-    private UserFile saveFile(User user, MultipartFile file, String fileType) {
+    private PanMaratUserFile saveFile(PanMaratUser user, MultipartFile file, String fileType) {
         String originalName = StringUtils.cleanPath(file.getOriginalFilename() == null ? "file" : file.getOriginalFilename());
         String extension = extractExtension(originalName);
         String uniqueName = UUID.randomUUID() + extension;
@@ -115,7 +115,7 @@ public class PanMaratFileStorageService {
             throw new RuntimeException("Failed to store file: " + originalName, e);
         }
 
-        UserFile userFile = new UserFile();
+        PanMaratUserFile userFile = new PanMaratUserFile();
         userFile.setUser(user);
         userFile.setFileName(originalName);
         userFile.setFileType(fileType);
@@ -126,7 +126,7 @@ public class PanMaratFileStorageService {
         return userFileRepository.save(userFile);
     }
 
-    private void deleteFileInternal(UserFile userFile) {
+    private void deleteFileInternal(PanMaratUserFile userFile) {
         Path filePath = Paths.get(userFile.getPath());
         try {
             Files.deleteIfExists(filePath);

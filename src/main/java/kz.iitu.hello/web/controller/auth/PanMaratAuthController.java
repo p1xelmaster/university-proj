@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.auth;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import kz.iitu.hello.domain.entity.User;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.security.JwtUtil;
@@ -39,8 +39,8 @@ public class PanMaratAuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        User user = usersRepository.findByUserName(request.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        PanMaratUser user = usersRepository.findByUserName(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PanMaratUser not found"));
 
         String token = jwtUtil.generateToken(request.getUsername());
         return new PanMaratAuthResponse(token, user.getRole(), user.getId());
@@ -53,7 +53,7 @@ public class PanMaratAuthController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
         }
 
-        User user = new User();
+        PanMaratUser user = new PanMaratUser();
         user.setUserName(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -71,8 +71,8 @@ public class PanMaratAuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        User user = usersRepository.findByUserName(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        PanMaratUser user = usersRepository.findByUserName(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "PanMaratUser not found"));
 
         if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Old password is invalid");
