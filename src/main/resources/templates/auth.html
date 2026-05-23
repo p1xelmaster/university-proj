@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="authPanel" class="auth-panel">
+    <div class="auth-panel-inner">
+        <div class="auth-form-wrap">
+            <div class="auth-label">Authentication</div>
+            <form id="loginForm" class="auth-form">
+                <input id="authUsername" name="username" type="text" placeholder="Username" required autocomplete="username">
+                <input id="authPassword" name="password" type="password" placeholder="Password" required autocomplete="current-password">
+                <div class="auth-btn-row">
+                    <button type="submit" class="btn btn-primary btn-sm">Login</button>
+                    <button type="button" id="logoutButton" class="btn btn-ghost btn-sm">Logout</button>
+                </div>
+            </form>
+        </div>
+        <div id="authStatus" class="auth-status"></div>
+    </div>
+</div>
+
+<script th:fragment="authScript">
+    (function () {
+        const TOKEN_KEY = "jwtToken";
+        const nativeFetch = window.fetch.bind(window);
+
+        function getToken() {
+            return localStorage.getItem(TOKEN_KEY);
+        }
+
+        function updateAuthStatus() {
+            const authStatus = document.getElementById("authStatus");
+            if (authStatus) {
+                const token = getToken();
+                authStatus.textContent = token ? "● Logged in" : "○ Not logged in";
+                authStatus.className = "auth-status " + (token ? "auth-ok" : "auth-none");
+            }
+        }
+
+        // Intercept all fetch calls to attach the JWT automatically.
+        window.fetch = function (input, init) {
+            const config = init || {};
+            const headers = new Headers(config.headers || {});
+            const token = getToken();
+
+            if (token && !headers.has("Authorization")) {
+                headers.set("Authorization", "Bearer " + token);
+            }
+
+            return nativeFetch(input, Object.assign({}, config, {headers}));
+        };
+
+        document.addEventListener("submit", async function (event) {
+            const form = event.target;
+            if (!(form instanceof HTMLFormElement)) return;
+
+            if (form.id === "loginForm") {
+                event.preventDefault();
+
+                const username = document.getElementById("authUsername")?.value ?? "";
+                const password = document.getElementById("authPassword")?.value ?? "";
+
+                const response = await fetch("/auth/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({username, password})
+                });
+
+                const authStatus = document.getElementById("authStatus");
+                if (!response.ok) {
+                    if (authStatus) {
+                        authStatus.textContent = "✗ Login failed";
+                        authStatus.className = "auth-status auth-error";
+                    }
+                    return;
+                }
+
+                const data = await response.json();
+                localStorage.setItem(TOKEN_KEY, data.token);
+                window.location.reload();
+                return;
+            }
+
+            const method = (form.getAttribute("method") || "GET").toUpperCase();
+            if (method === "GET") return;
+
+            const isMultipart = (form.getAttribute("enctype") || "").includes("multipart");
+
+            // Multipart forms (file upload) — let browser handle natively,
+            // but inject JWT via a hidden fetch trick is not possible.
+            // Instead we use a hidden input with the token for server-side reading.
+            // Simpler approach: just let multipart forms submit normally via browser
+            // since GET /profiles/** is now open and POST is protected by JWT in header.
+            // We inject the token by submitting via fetch with FormData (preserves files).
+            event.preventDefault();
+
+            const token = getToken();
+            const fetchInit = {
+                method: method,
+                redirect: "follow"
+            };
+
+            if (isMultipart) {
+                // Use FormData directly — browser sets correct multipart Content-Type
+                fetchInit.body = new FormData(form);
+                if (token) {
+                    fetchInit.headers = {"Authorization": "Bearer " + token};
+                }
+            } else {
+                const formData = new FormData(form);
+                const body = new URLSearchParams();
+                formData.forEach((value, key) => body.append(key, value));
+                fetchInit.body = body.toString();
+                fetchInit.headers = {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"};
+                if (token) {
+                    fetchInit.headers["Authorization"] = "Bearer " + token;
+                }
+            }
+
+            const response = await nativeFetch(form.action, fetchInit);
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                window.location.reload();
+            }
+        });
+
+        document.addEventListener("click", function (event) {
+            const target = event.target;
+            if (!(target instanceof HTMLElement) || target.id !== "logoutButton") return;
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.reload();
+        });
+
+        updateAuthStatus();
+    })();
+</script>
+</body>
+</html>
