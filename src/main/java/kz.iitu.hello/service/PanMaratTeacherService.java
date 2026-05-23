@@ -6,8 +6,8 @@ import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
 import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
-import kz.iitu.hello.exception.BusinessException;
-import kz.iitu.hello.exception.EntityNotFoundException;
+import kz.iitu.hello.exception.PanMaratBusinessException;
+import kz.iitu.hello.exception.PanMaratEntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratTeacherConverter;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
@@ -80,25 +80,25 @@ public class PanMaratTeacherService {
     public void delete(Long id) {
         PanMaratTeacher teacher = findById(id);
         if (teacher.getCourses() != null && !teacher.getCourses().isEmpty()) {
-            throw new BusinessException("Cannot delete teacher with assigned courses");
+            throw new PanMaratBusinessException("Cannot delete teacher with assigned courses");
         }
         teachersRepository.delete(teacher);
     }
 
     @Transactional(readOnly = true)
     public PanMaratTeacher findById(Long id) {
-        return teachersRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PanMaratTeacher not found with id: " + id));
+        return teachersRepository.findById(id).orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratTeacher not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
     public PanMaratTeacher findByUserId(Long userId) {
         return teachersRepository.findByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratTeacher not found for user id: " + userId));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratTeacher not found for user id: " + userId));
     }
 
     private void applyForm(PanMaratTeacherFormDto form, PanMaratTeacher teacher) {
         PanMaratUser user = usersRepository.findById(form.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found with id: " + form.getUserId()));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratUser not found with id: " + form.getUserId()));
         List<Long> courseIds = form.getCourseIds();
         List<PanMaratCourse> courses = courseIds == null ? new ArrayList<>() : new ArrayList<>(coursesRepository.findAllById(courseIds));
         teacherConverter.applyFormToEntity(form, teacher, user, courses);

@@ -7,7 +7,7 @@ import kz.iitu.hello.domain.mapper.PanMaratStudentsMyBatisMapper;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
-import kz.iitu.hello.exception.EntityNotFoundException;
+import kz.iitu.hello.exception.PanMaratEntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratStudentConverter;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
@@ -120,18 +120,18 @@ public class PanMaratStudentService {
 
     @Transactional(readOnly = true)
     public PanMaratStudent findById(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PanMaratStudent not found with id: " + id));
+        return studentRepository.findById(id).orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratStudent not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
     public PanMaratStudent findByUserId(Long userId) {
         return studentRepository.findByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratStudent not found for user id: " + userId));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratStudent not found for user id: " + userId));
     }
 
     private void applyForm(PanMaratStudentFormDto form, PanMaratStudent student) {
         PanMaratUser user = userRepository.findById(form.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found with id: " + form.getUserId()));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratUser not found with id: " + form.getUserId()));
         List<Long> courseIds = form.getCourseIds();
         Set<PanMaratCourse> courses = courseIds == null ? new HashSet<>() : new HashSet<>(courseRepository.findAllById(courseIds));
         studentConverter.applyFormToEntity(form, student, user, courses);

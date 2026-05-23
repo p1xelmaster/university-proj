@@ -3,7 +3,7 @@ package kz.iitu.hello.service;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
-import kz.iitu.hello.exception.EntityNotFoundException;
+import kz.iitu.hello.exception.PanMaratEntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratUserConverter;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
@@ -82,12 +82,12 @@ public class PanMaratUserService {
     @Transactional(readOnly = true)
     public PanMaratUser findById(Long id) {
         return usersRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found with id: " + id));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratUser not found with id: " + id));
     }
 
     @Transactional(readOnly = true)
     public PanMaratUser findByUsername(String username) {
         return usersRepository.findByUserName(username)
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratUser not found: " + username));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratUser not found: " + username));
     }
 }

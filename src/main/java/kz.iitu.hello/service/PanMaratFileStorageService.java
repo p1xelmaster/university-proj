@@ -3,7 +3,7 @@ package kz.iitu.hello.service;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.entity.PanMaratUserFile;
 import kz.iitu.hello.domain.repository.PanMaratUserFileRepository;
-import kz.iitu.hello.exception.EntityNotFoundException;
+import kz.iitu.hello.exception.PanMaratEntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -75,7 +75,7 @@ public class PanMaratFileStorageService {
     @Transactional(readOnly = true)
     public PanMaratUserFile getFile(Long fileId) {
         return userFileRepository.findById(fileId)
-                .orElseThrow(() -> new EntityNotFoundException("File not found with id: " + fileId));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("File not found with id: " + fileId));
     }
 
     @Transactional(readOnly = true)
@@ -88,7 +88,7 @@ public class PanMaratFileStorageService {
             if (resource.exists() && resource.isReadable()) {
                 return resource;
             }
-            throw new EntityNotFoundException("Stored file not found for id: " + fileId);
+            throw new PanMaratEntityNotFoundException("Stored file not found for id: " + fileId);
         } catch (MalformedURLException e) {
             throw new RuntimeException("Failed to load file for id: " + fileId, e);
         }

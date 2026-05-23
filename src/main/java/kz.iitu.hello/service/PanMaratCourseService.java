@@ -7,8 +7,8 @@ import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
 import kz.iitu.hello.domain.specification.PanMaratCourseSpecification;
-import kz.iitu.hello.exception.CourseLimitExceededException;
-import kz.iitu.hello.exception.EntityNotFoundException;
+import kz.iitu.hello.exception.PanMaratCourseLimitExceededException;
+import kz.iitu.hello.exception.PanMaratEntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratCourseConverter;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratStudentGridDto;
@@ -99,22 +99,22 @@ public class PanMaratCourseService {
 
     @Transactional(readOnly = true)
     public PanMaratCourse findById(Long id) {
-        return coursesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("PanMaratCourse not found with id: " + id));
+        return coursesRepository.findById(id).orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratCourse not found with id: " + id));
     }
 
     private void applyForm(PanMaratCourseFormDto form, PanMaratCourse course) {
         PanMaratTeacher teacher = teachersRepository.findById(form.getTeacherId())
-                .orElseThrow(() -> new EntityNotFoundException("PanMaratTeacher not found with id: " + form.getTeacherId()));
+                .orElseThrow(() -> new PanMaratEntityNotFoundException("PanMaratTeacher not found with id: " + form.getTeacherId()));
 
         List<Long> studentIds = form.getStudentIds() == null ? List.of() : form.getStudentIds();
         Set<PanMaratStudent> students = new HashSet<>(studentsRepository.findAllById(studentIds));
 
         if (students.size() != new HashSet<>(studentIds).size()) {
-            throw new EntityNotFoundException("One or more students not found");
+            throw new PanMaratEntityNotFoundException("One or more students not found");
         }
 
         if (students.size() > form.getMaxStudents()) {
-            throw new CourseLimitExceededException("PanMaratStudent count exceeds maximum allowed for this course");
+            throw new PanMaratCourseLimitExceededException("PanMaratStudent count exceeds maximum allowed for this course");
         }
 
         Set<PanMaratStudent> oldStudents = new HashSet<>(course.getStudents());
