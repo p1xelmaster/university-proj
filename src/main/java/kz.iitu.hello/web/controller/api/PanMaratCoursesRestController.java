@@ -6,8 +6,8 @@ import kz.iitu.hello.service.PanMaratCourseService;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
 import kz.iitu.hello.web.dto.view.PanMaratCourseViewDto;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
-import kz.iitu.hello.web.validations.CourseFormValidator;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratCourseFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Courses", description = "CRUD operations for courses (ADMIN only)")
 public class PanMaratCoursesRestController {
     private final PanMaratCourseService courseService;
-    private final CourseFormValidator courseFormValidator;
+    private final PanMaratCourseFormValidator courseFormValidator;
 
     @GetMapping
     @Operation(summary = "Search courses", description = "Search and paginate courses with optional filters")
@@ -37,7 +37,7 @@ public class PanMaratCoursesRestController {
     public void create(@RequestBody PanMaratCourseFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         courseFormValidator.validate(form, br, null);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         courseService.create(form);
     }
 
@@ -46,7 +46,7 @@ public class PanMaratCoursesRestController {
     public void update(@PathVariable Long id, @RequestBody PanMaratCourseFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         courseFormValidator.validate(form, br, id);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         courseService.update(id, form);
     }
 

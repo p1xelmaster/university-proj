@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratCourseService;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
-import kz.iitu.hello.web.validations.CourseFormValidator;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratCourseFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/courses")
 public class PanMaratCoursesController {
     private final PanMaratCourseService courseService;
-    private final CourseFormValidator courseFormValidator;
+    private final PanMaratCourseFormValidator courseFormValidator;
 
     @GetMapping
     public String read(@RequestParam(name = "id", required = false) Long id,
@@ -35,7 +35,7 @@ public class PanMaratCoursesController {
     @PostMapping
     public String create(@Valid @ModelAttribute("form") PanMaratCourseFormDto form, BindingResult bindingResult, Model model) {
         courseFormValidator.validate(form, bindingResult, null);
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
         }
         courseService.create(form);
@@ -45,7 +45,7 @@ public class PanMaratCoursesController {
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, @Valid @ModelAttribute("form") PanMaratCourseFormDto form, BindingResult bindingResult, Model model) {
         courseFormValidator.validate(form, bindingResult, form.getId());
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
             return renderFormWithErrors(model, form, true);
         }

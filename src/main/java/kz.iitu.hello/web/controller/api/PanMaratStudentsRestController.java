@@ -7,8 +7,8 @@ import kz.iitu.hello.service.PanMaratStudentService;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratStudentSearchForm;
 import kz.iitu.hello.web.dto.view.PanMaratStudentViewDto;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
-import kz.iitu.hello.web.validations.StudentFormValidator;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratStudentFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Students", description = "CRUD operations for students (ADMIN only)")
 public class PanMaratStudentsRestController {
     private final PanMaratStudentService studentService;
-    private final StudentFormValidator studentFormValidator;
+    private final PanMaratStudentFormValidator studentFormValidator;
 
     @GetMapping
     @Operation(summary = "Search students", description = "Search and paginate students with optional filters")
@@ -38,7 +38,7 @@ public class PanMaratStudentsRestController {
     public void create(@Valid @RequestBody PanMaratStudentFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         studentFormValidator.validate(form, br, null);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         studentService.create(form);
     }
 
@@ -47,7 +47,7 @@ public class PanMaratStudentsRestController {
     public void update(@PathVariable Long id, @Valid @RequestBody PanMaratStudentFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         studentFormValidator.validate(form, br, id);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         studentService.update(id, form);
     }
 

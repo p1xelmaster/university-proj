@@ -6,7 +6,7 @@ import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
 import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
 import kz.iitu.hello.web.validations.UserFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,7 @@ public class PanMaratUsersRestController {
     public void create(@RequestBody PanMaratUserFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         userFormValidator.validate(form, br, null);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         userService.create(form);
     }
 
@@ -46,7 +46,7 @@ public class PanMaratUsersRestController {
     public void update(@PathVariable Long id, @RequestBody PanMaratUserFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         userFormValidator.validate(form, br, id);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         userService.update(id, form);
     }
 

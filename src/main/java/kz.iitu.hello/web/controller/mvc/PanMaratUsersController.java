@@ -4,7 +4,7 @@ import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
 import kz.iitu.hello.web.validations.UserFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,7 @@ public class PanMaratUsersController {
     @PostMapping
     public String create(@ModelAttribute("form") PanMaratUserFormDto form, BindingResult bindingResult, Model model) {
         userFormValidator.validate(form, bindingResult, form.getId());
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
         }
         userService.create(form);
@@ -45,7 +45,7 @@ public class PanMaratUsersController {
     @PutMapping("{id}")
     public String update(@PathVariable Long id, @ModelAttribute("form") PanMaratUserFormDto form, BindingResult bindingResult, Model model) {
         userFormValidator.validate(form, bindingResult, form.getId());
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
             return renderFormWithErrors(model, form, true);
         }

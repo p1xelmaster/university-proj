@@ -7,7 +7,7 @@ import kz.iitu.hello.service.PanMaratTeacherService;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
 import kz.iitu.hello.web.dto.view.PanMaratTeacherViewDto;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
 import kz.iitu.hello.web.validations.TeacherFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,7 +38,7 @@ public class PanMaratTeachersRestController {
     public void create(@Valid @RequestBody PanMaratTeacherFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         teacherFormValidator.validate(form, br, null);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         teacherService.create(form);
     }
 
@@ -47,7 +47,7 @@ public class PanMaratTeachersRestController {
     public void update(@PathVariable Long id, @Valid @RequestBody PanMaratTeacherFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         teacherFormValidator.validate(form, br, id);
-        BindingResultValidationUtils.validate(br);
+        PanMaratBindingResultValidationUtils.validate(br);
         teacherService.update(id, form);
     }
 

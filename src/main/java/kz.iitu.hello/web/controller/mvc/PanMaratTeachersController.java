@@ -5,7 +5,7 @@ import kz.iitu.hello.domain.enums.Department;
 import kz.iitu.hello.service.PanMaratTeacherService;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
-import kz.iitu.hello.web.validations.BindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
 import kz.iitu.hello.web.validations.TeacherFormValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +36,7 @@ public class PanMaratTeachersController {
     @PostMapping
     public String create(@Valid @ModelAttribute("form") PanMaratTeacherFormDto form, BindingResult bindingResult, Model model) {
         teacherFormValidator.validate(form, bindingResult, form.getId());
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
         }
         teacherService.create(form);
@@ -46,7 +46,7 @@ public class PanMaratTeachersController {
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, @Valid @ModelAttribute("form") PanMaratTeacherFormDto form, BindingResult bindingResult, Model model) {
         teacherFormValidator.validate(form, bindingResult, form.getId());
-        if (BindingResultValidationUtils.hasErrors(bindingResult)) {
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
             return renderFormWithErrors(model, form, true);
         }
