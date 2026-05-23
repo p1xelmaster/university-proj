@@ -10,7 +10,7 @@ import kz.iitu.hello.domain.specification.CourseSpecification;
 import kz.iitu.hello.exception.CourseLimitExceededException;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.CourseConverter;
-import kz.iitu.hello.web.dto.form.CourseFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.grid.StudentGridDto;
 import kz.iitu.hello.web.dto.grid.TeacherGridDto;
 import kz.iitu.hello.web.dto.search.CourseSearchForm;
@@ -71,17 +71,17 @@ public class PanMaratCourseService {
     }
 
     @Transactional(readOnly = true)
-    public CourseFormDto getForm(Long id) {
-        return id == null ? new CourseFormDto() : courseConverter.toFormDto(findById(id));
+    public PanMaratCourseFormDto getForm(Long id) {
+        return id == null ? new PanMaratCourseFormDto() : courseConverter.toFormDto(findById(id));
     }
 
-    public void create(CourseFormDto form) {
+    public void create(PanMaratCourseFormDto form) {
         Course course = new Course();
         applyForm(form, course);
         coursesRepository.save(course);
     }
 
-    public void update(Long id, CourseFormDto form) {
+    public void update(Long id, PanMaratCourseFormDto form) {
         Course course = findById(id);
         applyForm(form, course);
         coursesRepository.save(course);
@@ -102,7 +102,7 @@ public class PanMaratCourseService {
         return coursesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + id));
     }
 
-    private void applyForm(CourseFormDto form, Course course) {
+    private void applyForm(PanMaratCourseFormDto form, Course course) {
         Teacher teacher = teachersRepository.findById(form.getTeacherId())
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found with id: " + form.getTeacherId()));
 

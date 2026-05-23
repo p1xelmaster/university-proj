@@ -9,7 +9,7 @@ import kz.iitu.hello.domain.repository.StudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.StudentConverter;
-import kz.iitu.hello.web.dto.form.StudentFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.grid.CourseGridDto;
 import kz.iitu.hello.web.dto.grid.UserGridDto;
 import kz.iitu.hello.web.dto.search.StudentSearchForm;
@@ -89,17 +89,17 @@ public class PanMaratStudentService {
     }
 
     @Transactional(readOnly = true)
-    public StudentFormDto getForm(Long id) {
-        return id == null ? new StudentFormDto() : studentConverter.toFormDto(findById(id));
+    public PanMaratStudentFormDto getForm(Long id) {
+        return id == null ? new PanMaratStudentFormDto() : studentConverter.toFormDto(findById(id));
     }
 
-    public void create(StudentFormDto form) {
+    public void create(PanMaratStudentFormDto form) {
         Student student = new Student();
         applyForm(form, student);
         studentRepository.save(student);
     }
 
-    public void update(Long id, StudentFormDto form) {
+    public void update(Long id, PanMaratStudentFormDto form) {
         Student student = findById(id);
         applyForm(form, student);
         studentRepository.save(student);
@@ -129,7 +129,7 @@ public class PanMaratStudentService {
                 .orElseThrow(() -> new EntityNotFoundException("Student not found for user id: " + userId));
     }
 
-    private void applyForm(StudentFormDto form, Student student) {
+    private void applyForm(PanMaratStudentFormDto form, Student student) {
         User user = userRepository.findById(form.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + form.getUserId()));
         List<Long> courseIds = form.getCourseIds();

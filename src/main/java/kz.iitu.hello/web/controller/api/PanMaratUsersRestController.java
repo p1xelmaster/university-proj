@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.iitu.hello.service.PanMaratUserService;
-import kz.iitu.hello.web.dto.form.UserFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.UserGridDto;
 import kz.iitu.hello.web.dto.search.UserSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
@@ -34,7 +34,7 @@ public class PanMaratUsersRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create user", description = "Create a new user account")
-    public void create(@RequestBody UserFormDto form) {
+    public void create(@RequestBody PanMaratUserFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         userFormValidator.validate(form, br, null);
         BindingResultValidationUtils.validate(br);
@@ -43,7 +43,7 @@ public class PanMaratUsersRestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user", description = "Update an existing user by ID")
-    public void update(@PathVariable Long id, @RequestBody UserFormDto form) {
+    public void update(@PathVariable Long id, @RequestBody PanMaratUserFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         userFormValidator.validate(form, br, id);
         BindingResultValidationUtils.validate(br);

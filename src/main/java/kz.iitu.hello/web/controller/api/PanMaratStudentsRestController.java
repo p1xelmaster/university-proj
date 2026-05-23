@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratStudentService;
-import kz.iitu.hello.web.dto.form.StudentFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.search.StudentSearchForm;
 import kz.iitu.hello.web.dto.view.StudentViewDto;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
@@ -35,7 +35,7 @@ public class PanMaratStudentsRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create student", description = "Create a new student linked to an existing user")
-    public void create(@Valid @RequestBody StudentFormDto form) {
+    public void create(@Valid @RequestBody PanMaratStudentFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         studentFormValidator.validate(form, br, null);
         BindingResultValidationUtils.validate(br);
@@ -44,7 +44,7 @@ public class PanMaratStudentsRestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update student", description = "Update an existing student by ID")
-    public void update(@PathVariable Long id, @Valid @RequestBody StudentFormDto form) {
+    public void update(@PathVariable Long id, @Valid @RequestBody PanMaratStudentFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         studentFormValidator.validate(form, br, id);
         BindingResultValidationUtils.validate(br);

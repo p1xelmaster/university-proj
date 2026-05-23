@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.iitu.hello.service.PanMaratCourseService;
-import kz.iitu.hello.web.dto.form.CourseFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.search.CourseSearchForm;
 import kz.iitu.hello.web.dto.view.CourseViewDto;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
@@ -34,7 +34,7 @@ public class PanMaratCoursesRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create course", description = "Create a new course with teacher and optional students")
-    public void create(@RequestBody CourseFormDto form) {
+    public void create(@RequestBody PanMaratCourseFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         courseFormValidator.validate(form, br, null);
         BindingResultValidationUtils.validate(br);
@@ -43,7 +43,7 @@ public class PanMaratCoursesRestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update course", description = "Update an existing course by ID")
-    public void update(@PathVariable Long id, @RequestBody CourseFormDto form) {
+    public void update(@PathVariable Long id, @RequestBody PanMaratCourseFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         courseFormValidator.validate(form, br, id);
         BindingResultValidationUtils.validate(br);

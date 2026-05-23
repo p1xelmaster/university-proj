@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.mvc;
 import jakarta.validation.Valid;
 import kz.iitu.hello.domain.enums.Department;
 import kz.iitu.hello.service.PanMaratTeacherService;
-import kz.iitu.hello.web.dto.form.TeacherFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.TeacherSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.TeacherFormValidator;
@@ -34,7 +34,7 @@ public class PanMaratTeachersController {
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("form") TeacherFormDto form, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("form") PanMaratTeacherFormDto form, BindingResult bindingResult, Model model) {
         teacherFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
@@ -44,7 +44,7 @@ public class PanMaratTeachersController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute("form") TeacherFormDto form, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("form") PanMaratTeacherFormDto form, BindingResult bindingResult, Model model) {
         teacherFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
@@ -60,7 +60,7 @@ public class PanMaratTeachersController {
         return "redirect:/teachers";
     }
 
-    private String renderFormWithErrors(Model model, TeacherFormDto form, boolean editMode) {
+    private String renderFormWithErrors(Model model, PanMaratTeacherFormDto form, boolean editMode) {
         model.addAttribute("editMode", editMode);
         model.addAttribute("form", form);
         fillCommonAttributes(model, new TeacherSearchForm(), Pageable.ofSize(10));

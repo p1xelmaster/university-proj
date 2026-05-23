@@ -2,7 +2,7 @@ package kz.iitu.hello.web.controller.mvc;
 
 import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratStudentService;
-import kz.iitu.hello.web.dto.form.StudentFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.search.StudentSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.StudentFormValidator;
@@ -33,7 +33,7 @@ public class PanMaratStudentsController {
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("form") StudentFormDto form, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("form") PanMaratStudentFormDto form, BindingResult bindingResult, Model model) {
         studentFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
@@ -43,7 +43,7 @@ public class PanMaratStudentsController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable Long id, @Valid @ModelAttribute("form") StudentFormDto form, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("form") PanMaratStudentFormDto form, BindingResult bindingResult, Model model) {
         studentFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
@@ -59,7 +59,7 @@ public class PanMaratStudentsController {
         return "redirect:/students";
     }
 
-    private String renderFormWithErrors(Model model, StudentFormDto form, boolean editMode) {
+    private String renderFormWithErrors(Model model, PanMaratStudentFormDto form, boolean editMode) {
         model.addAttribute("form", form);
         model.addAttribute("editMode", editMode);
         fillCommonAttributes(model, new StudentSearchForm(), Pageable.ofSize(10));

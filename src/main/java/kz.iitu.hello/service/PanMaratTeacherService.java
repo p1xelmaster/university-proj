@@ -9,7 +9,7 @@ import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.BusinessException;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.TeacherConverter;
-import kz.iitu.hello.web.dto.form.TeacherFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.grid.CourseGridDto;
 import kz.iitu.hello.web.dto.grid.UserGridDto;
 import kz.iitu.hello.web.dto.search.TeacherSearchForm;
@@ -61,17 +61,17 @@ public class PanMaratTeacherService {
     }
 
     @Transactional(readOnly = true)
-    public TeacherFormDto getForm(Long id) {
-        return id == null ? new TeacherFormDto() : teacherConverter.toFormDto(findById(id));
+    public PanMaratTeacherFormDto getForm(Long id) {
+        return id == null ? new PanMaratTeacherFormDto() : teacherConverter.toFormDto(findById(id));
     }
 
-    public void create(TeacherFormDto form) {
+    public void create(PanMaratTeacherFormDto form) {
         Teacher teacher = new Teacher();
         applyForm(form, teacher);
         teachersRepository.save(teacher);
     }
 
-    public void update(Long id, TeacherFormDto form) {
+    public void update(Long id, PanMaratTeacherFormDto form) {
         Teacher teacher = findById(id);
         applyForm(form, teacher);
         teachersRepository.save(teacher);
@@ -96,7 +96,7 @@ public class PanMaratTeacherService {
                 .orElseThrow(() -> new EntityNotFoundException("Teacher not found for user id: " + userId));
     }
 
-    private void applyForm(TeacherFormDto form, Teacher teacher) {
+    private void applyForm(PanMaratTeacherFormDto form, Teacher teacher) {
         User user = usersRepository.findById(form.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + form.getUserId()));
         List<Long> courseIds = form.getCourseIds();

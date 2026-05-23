@@ -2,7 +2,7 @@ package kz.iitu.hello.web.controller.mvc;
 
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.service.PanMaratUserService;
-import kz.iitu.hello.web.dto.form.UserFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.search.UserSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.UserFormValidator;
@@ -33,7 +33,7 @@ public class PanMaratUsersController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("form") UserFormDto form, BindingResult bindingResult, Model model) {
+    public String create(@ModelAttribute("form") PanMaratUserFormDto form, BindingResult bindingResult, Model model) {
         userFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             return renderFormWithErrors(model, form, false);
@@ -43,7 +43,7 @@ public class PanMaratUsersController {
     }
 
     @PutMapping("{id}")
-    public String update(@PathVariable Long id, @ModelAttribute("form") UserFormDto form, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable Long id, @ModelAttribute("form") PanMaratUserFormDto form, BindingResult bindingResult, Model model) {
         userFormValidator.validate(form, bindingResult, form.getId());
         if (BindingResultValidationUtils.hasErrors(bindingResult)) {
             form.setId(id);
@@ -59,7 +59,7 @@ public class PanMaratUsersController {
         return "redirect:/users";
     }
 
-    private String renderFormWithErrors(Model model, UserFormDto form, boolean editMode) {
+    private String renderFormWithErrors(Model model, PanMaratUserFormDto form, boolean editMode) {
         model.addAttribute("editMode", editMode);
         model.addAttribute("form", form);
         fillCommonAttributes(model, new UserSearchForm(), Pageable.ofSize(10));

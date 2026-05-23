@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratTeacherService;
-import kz.iitu.hello.web.dto.form.TeacherFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.TeacherSearchForm;
 import kz.iitu.hello.web.dto.view.TeacherViewDto;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
@@ -35,7 +35,7 @@ public class PanMaratTeachersRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create teacher", description = "Create a new teacher linked to an existing user")
-    public void create(@Valid @RequestBody TeacherFormDto form) {
+    public void create(@Valid @RequestBody PanMaratTeacherFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         teacherFormValidator.validate(form, br, null);
         BindingResultValidationUtils.validate(br);
@@ -44,7 +44,7 @@ public class PanMaratTeachersRestController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update teacher", description = "Update an existing teacher by ID")
-    public void update(@PathVariable Long id, @Valid @RequestBody TeacherFormDto form) {
+    public void update(@PathVariable Long id, @Valid @RequestBody PanMaratTeacherFormDto form) {
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(form, "form");
         teacherFormValidator.validate(form, br, id);
         BindingResultValidationUtils.validate(br);

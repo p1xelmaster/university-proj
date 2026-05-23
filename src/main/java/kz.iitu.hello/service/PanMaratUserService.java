@@ -5,7 +5,7 @@ import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.UserConverter;
-import kz.iitu.hello.web.dto.form.UserFormDto;
+import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.UserGridDto;
 import kz.iitu.hello.web.dto.search.UserSearchForm;
 import lombok.RequiredArgsConstructor;
@@ -53,11 +53,11 @@ public class PanMaratUserService {
     }
 
     @Transactional(readOnly = true)
-    public UserFormDto getForm(Long id) {
-        return id == null ? new UserFormDto() : userConverter.toFormDto(findById(id));
+    public PanMaratUserFormDto getForm(Long id) {
+        return id == null ? new PanMaratUserFormDto() : userConverter.toFormDto(findById(id));
     }
 
-    public void create(UserFormDto form) {
+    public void create(PanMaratUserFormDto form) {
         User user = new User();
         userConverter.applyFormToEntity(form, user);
         if (form.getPassword() != null && !form.getPassword().isBlank()) {
@@ -66,7 +66,7 @@ public class PanMaratUserService {
         usersRepository.save(user);
     }
 
-    public void update(Long id, UserFormDto form) {
+    public void update(Long id, PanMaratUserFormDto form) {
         User user = findById(id);
         userConverter.applyFormToEntity(form, user);
         if (form.getPassword() != null && !form.getPassword().isBlank()) {
