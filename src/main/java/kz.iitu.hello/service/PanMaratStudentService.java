@@ -3,7 +3,7 @@ package kz.iitu.hello.service;
 import kz.iitu.hello.domain.entity.PanMaratCourse;
 import kz.iitu.hello.domain.entity.PanMaratStudent;
 import kz.iitu.hello.domain.entity.PanMaratUser;
-import kz.iitu.hello.domain.mapper.StudentsMyBatisMapper;
+import kz.iitu.hello.domain.mapper.PanMaratStudentsMyBatisMapper;
 import kz.iitu.hello.domain.repository.CoursesRepository;
 import kz.iitu.hello.domain.repository.StudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
@@ -43,7 +43,7 @@ public class PanMaratStudentService {
     private final StudentsRepository studentRepository;
     private final UsersRepository userRepository;
     private final CoursesRepository courseRepository;
-    private final StudentsMyBatisMapper studentsMyBatisMapper;
+    private final PanMaratStudentsMyBatisMapper studentsMyBatisMapper;
     private final PanMaratStudentConverter studentConverter;
 
     @Transactional(readOnly = true)
