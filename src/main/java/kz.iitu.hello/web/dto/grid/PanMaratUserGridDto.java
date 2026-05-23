@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.dto.grid;
 
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,5 @@ public class PanMaratUserGridDto {
     private Long id;
     private String userName;
     private String email;
-    private UserRole role;
+    private PanMaratUserRole role;
 }

@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.entity.PanMaratUserFile;
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.service.PanMaratFileStorageService;
 import kz.iitu.hello.service.PanMaratUserService;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +73,7 @@ public class PanMaratProfilesRestController {
 
     private void verifyOwnerOrAdmin(Long userId, Authentication authentication) {
         PanMaratUser currentUser = userService.findByUsername(authentication.getName());
-        if (!currentUser.getId().equals(userId) && currentUser.getRole() != UserRole.ADMIN) {
+        if (!currentUser.getId().equals(userId) && currentUser.getRole() != PanMaratUserRole.ADMIN) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access denied: you can only modify your own profile");
         }
     }

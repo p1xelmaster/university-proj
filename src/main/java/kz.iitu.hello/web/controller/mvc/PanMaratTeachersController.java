@@ -1,7 +1,7 @@
 package kz.iitu.hello.web.controller.mvc;
 
 import jakarta.validation.Valid;
-import kz.iitu.hello.domain.enums.Department;
+import kz.iitu.hello.domain.enums.PanMaratDepartment;
 import kz.iitu.hello.service.PanMaratTeacherService;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
@@ -72,6 +72,6 @@ public class PanMaratTeachersController {
         model.addAttribute("searchForm", form);
         model.addAttribute("users", teacherService.findAllUsers());
         model.addAttribute("courses", teacherService.findAllCourses());
-        model.addAttribute("departments", Department.values());
+        model.addAttribute("departments", PanMaratDepartment.values());
     }
 }

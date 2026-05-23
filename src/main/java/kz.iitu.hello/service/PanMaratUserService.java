@@ -1,7 +1,7 @@
 package kz.iitu.hello.service;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratUserConverter;
@@ -34,7 +34,7 @@ public class PanMaratUserService {
     public Page<PanMaratUserGridDto> search(PanMaratUserSearchForm form, Pageable pageable) {
         String userNameFilter = form.getUsername() == null ? "" : form.getUsername();
         String emailFilter = form.getEmail() == null ? "" : form.getEmail();
-        UserRole roleFilter = form.getRole();
+        PanMaratUserRole roleFilter = form.getRole();
 
         Sort.Direction direction = form.getSortDirection() == null ? Sort.Direction.ASC : form.getSortDirection();
         String requestedSortBy = form.getSortBy() == null ? DEFAULT_SORT : form.getSortBy();

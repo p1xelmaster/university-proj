@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.iitu.hello.domain.entity.PanMaratUser;
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.security.JwtUtil;
 import kz.iitu.hello.web.dto.auth.PanMaratAuthResponse;
@@ -57,7 +57,7 @@ public class PanMaratAuthController {
         user.setUserName(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(UserRole.GUEST);
+        user.setRole(PanMaratUserRole.GUEST);
 
         usersRepository.save(user);
 

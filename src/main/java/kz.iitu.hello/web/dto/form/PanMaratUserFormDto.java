@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.dto.form;
 
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +14,5 @@ public class PanMaratUserFormDto {
     private String userName;
     private String email;
     private String password;
-    private UserRole role;
+    private PanMaratUserRole role;
 }

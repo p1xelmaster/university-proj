@@ -3,7 +3,7 @@ package kz.iitu.hello.domain.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import kz.iitu.hello.domain.enums.Department;
+import kz.iitu.hello.domain.enums.PanMaratDepartment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +32,7 @@ public class PanMaratTeacher {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Department department;
+    private PanMaratDepartment department;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)

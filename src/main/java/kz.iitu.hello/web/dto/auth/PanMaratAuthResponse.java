@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.dto.auth;
 
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class PanMaratAuthResponse {
     private String token;
-    private UserRole role;
+    private PanMaratUserRole role;
     private Long userId;
 }

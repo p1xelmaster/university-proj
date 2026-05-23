@@ -1,7 +1,7 @@
 package kz.iitu.hello.domain.entity;
 
 import jakarta.persistence.*;
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ public class PanMaratUser {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole role;
+    private PanMaratUserRole role;
 
     @Column
     private LocalDateTime createdAt;

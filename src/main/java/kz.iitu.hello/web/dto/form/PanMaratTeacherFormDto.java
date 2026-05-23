@@ -1,7 +1,7 @@
 package kz.iitu.hello.web.dto.form;
 
 import jakarta.validation.constraints.*;
-import kz.iitu.hello.domain.enums.Department;
+import kz.iitu.hello.domain.enums.PanMaratDepartment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +24,8 @@ public class PanMaratTeacherFormDto {
     @Max(value = 60, message = "Experience years must be at most 60")
     private Integer experienceYears;
 
-    @NotNull(message = "Department is required")
-    private Department department;
+    @NotNull(message = "PanMaratDepartment is required")
+    private PanMaratDepartment department;
 
     @NotNull(message = "PanMaratUser is required")
     private Long userId;

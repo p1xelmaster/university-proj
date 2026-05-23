@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.controller.mvc;
 
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
@@ -69,6 +69,6 @@ public class PanMaratUsersController {
     private void fillCommonAttributes(Model model, PanMaratUserSearchForm form, Pageable pageable) {
         model.addAttribute("page", userService.search(form, pageable));
         model.addAttribute("searchForm", form);
-        model.addAttribute("roles", UserRole.values());
+        model.addAttribute("roles", PanMaratUserRole.values());
     }
 }

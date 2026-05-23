@@ -1,7 +1,7 @@
 package kz.iitu.hello.web.validations;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
-import kz.iitu.hello.domain.enums.UserRole;
+import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.domain.repository.StudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
@@ -29,7 +29,7 @@ public class PanMaratStudentFormValidator {
             return;
         }
 
-        if (userOpt.get().getRole() != UserRole.STUDENT) {
+        if (userOpt.get().getRole() != PanMaratUserRole.STUDENT) {
             bindingResult.rejectValue("userId", "userId.wrongRole", "Selected user must have STUDENT role");
         }
 
