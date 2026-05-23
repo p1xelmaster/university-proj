@@ -2,7 +2,7 @@ package kz.iitu.hello.service;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratUserConverter;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
@@ -26,7 +26,7 @@ public class PanMaratUserService {
     private static final String DEFAULT_SORT = "createdAt";
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("id", "userName", "email", "createdAt", "role");
 
-    private final UsersRepository usersRepository;
+    private final PanMaratUsersRepository usersRepository;
     private final PanMaratUserConverter userConverter;
     private final PasswordEncoder passwordEncoder;
 

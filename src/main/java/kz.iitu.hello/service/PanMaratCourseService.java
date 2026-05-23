@@ -5,7 +5,7 @@ import kz.iitu.hello.domain.entity.PanMaratStudent;
 import kz.iitu.hello.domain.entity.PanMaratTeacher;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
-import kz.iitu.hello.domain.repository.TeachersRepository;
+import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
 import kz.iitu.hello.domain.specification.CourseSpecification;
 import kz.iitu.hello.exception.CourseLimitExceededException;
 import kz.iitu.hello.exception.EntityNotFoundException;
@@ -35,7 +35,7 @@ public class PanMaratCourseService {
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("courseName", "maxStudents", "teacher");
 
     private final PanMaratCoursesRepository coursesRepository;
-    private final TeachersRepository teachersRepository;
+    private final PanMaratTeachersRepository teachersRepository;
     private final PanMaratStudentsRepository studentsRepository;
     private final PanMaratCourseConverter courseConverter;
 

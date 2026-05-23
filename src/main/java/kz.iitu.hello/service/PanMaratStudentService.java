@@ -6,7 +6,7 @@ import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.mapper.PanMaratStudentsMyBatisMapper;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratStudentConverter;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
@@ -41,7 +41,7 @@ public class PanMaratStudentService {
     );
 
     private final PanMaratStudentsRepository studentRepository;
-    private final UsersRepository userRepository;
+    private final PanMaratUsersRepository userRepository;
     private final PanMaratCoursesRepository courseRepository;
     private final PanMaratStudentsMyBatisMapper studentsMyBatisMapper;
     private final PanMaratStudentConverter studentConverter;

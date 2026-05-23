@@ -4,8 +4,8 @@ import kz.iitu.hello.domain.entity.PanMaratCourse;
 import kz.iitu.hello.domain.entity.PanMaratTeacher;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
-import kz.iitu.hello.domain.repository.TeachersRepository;
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.exception.BusinessException;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratTeacherConverter;
@@ -33,8 +33,8 @@ public class PanMaratTeacherService {
     private static final String DEFAULT_SORT = "teacherName";
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("id", "teacherName", "experienceYears", "department");
 
-    private final TeachersRepository teachersRepository;
-    private final UsersRepository usersRepository;
+    private final PanMaratTeachersRepository teachersRepository;
+    private final PanMaratUsersRepository usersRepository;
     private final PanMaratCoursesRepository coursesRepository;
     private final PanMaratTeacherConverter teacherConverter;
 

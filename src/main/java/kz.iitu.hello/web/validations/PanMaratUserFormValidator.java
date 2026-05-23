@@ -1,6 +1,6 @@
 package kz.iitu.hello.web.validations;
 
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 @Component
 @RequiredArgsConstructor
 public class PanMaratUserFormValidator {
-    private final UsersRepository usersRepository;
+    private final PanMaratUsersRepository usersRepository;
 
     public void validate(PanMaratUserFormDto form, BindingResult bindingResult, Long currentId) {
         if (form.getUserName() == null || form.getUserName().isBlank()) {

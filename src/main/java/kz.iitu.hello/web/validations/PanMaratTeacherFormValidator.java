@@ -2,8 +2,8 @@ package kz.iitu.hello.web.validations;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
-import kz.iitu.hello.domain.repository.TeachersRepository;
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PanMaratTeacherFormValidator {
 
-    private final UsersRepository usersRepository;
-    private final TeachersRepository teachersRepository;
+    private final PanMaratUsersRepository usersRepository;
+    private final PanMaratTeachersRepository teachersRepository;
 
     public void validate(PanMaratTeacherFormDto form, BindingResult bindingResult, Long currentId) {
         if (form.getUserId() == null) {

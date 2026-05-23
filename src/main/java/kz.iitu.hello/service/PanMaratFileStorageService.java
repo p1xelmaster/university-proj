@@ -2,7 +2,7 @@ package kz.iitu.hello.service;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.entity.PanMaratUserFile;
-import kz.iitu.hello.domain.repository.UserFileRepository;
+import kz.iitu.hello.domain.repository.PanMaratUserFileRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -35,7 +35,7 @@ public class PanMaratFileStorageService {
     private static final long MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
     private final PanMaratUserService userService;
-    private final UserFileRepository userFileRepository;
+    private final PanMaratUserFileRepository userFileRepository;
 
     public PanMaratUserFile saveAvatar(Long userId, MultipartFile file) {
         validateNotEmpty(file, "Avatar file is required");

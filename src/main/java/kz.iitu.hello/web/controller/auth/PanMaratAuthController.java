@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
-import kz.iitu.hello.domain.repository.UsersRepository;
+import kz.iitu.hello.domain.repository.PanMaratUsersRepository;
 import kz.iitu.hello.security.JwtUtil;
 import kz.iitu.hello.web.dto.auth.PanMaratAuthResponse;
 import kz.iitu.hello.web.dto.auth.PanMaratChangePasswordRequest;
@@ -29,7 +29,7 @@ public class PanMaratAuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UsersRepository usersRepository;
+    private final PanMaratUsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
