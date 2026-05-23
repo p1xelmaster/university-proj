@@ -2,7 +2,7 @@ package kz.iitu.hello.web.validations;
 
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
-import kz.iitu.hello.domain.repository.StudentsRepository;
+import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PanMaratStudentFormValidator {
 
     private final UsersRepository usersRepository;
-    private final StudentsRepository studentsRepository;
+    private final PanMaratStudentsRepository studentsRepository;
 
     public void validate(PanMaratStudentFormDto form, BindingResult bindingResult, Long currentId) {
         if (form.getUserId() == null) {

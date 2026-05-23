@@ -3,7 +3,7 @@ package kz.iitu.hello.service;
 import kz.iitu.hello.domain.entity.PanMaratCourse;
 import kz.iitu.hello.domain.entity.PanMaratTeacher;
 import kz.iitu.hello.domain.entity.PanMaratUser;
-import kz.iitu.hello.domain.repository.CoursesRepository;
+import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.TeachersRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.BusinessException;
@@ -35,7 +35,7 @@ public class PanMaratTeacherService {
 
     private final TeachersRepository teachersRepository;
     private final UsersRepository usersRepository;
-    private final CoursesRepository coursesRepository;
+    private final PanMaratCoursesRepository coursesRepository;
     private final PanMaratTeacherConverter teacherConverter;
 
     @Transactional(readOnly = true)

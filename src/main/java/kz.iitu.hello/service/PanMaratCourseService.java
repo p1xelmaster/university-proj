@@ -3,8 +3,8 @@ package kz.iitu.hello.service;
 import kz.iitu.hello.domain.entity.PanMaratCourse;
 import kz.iitu.hello.domain.entity.PanMaratStudent;
 import kz.iitu.hello.domain.entity.PanMaratTeacher;
-import kz.iitu.hello.domain.repository.CoursesRepository;
-import kz.iitu.hello.domain.repository.StudentsRepository;
+import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
+import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.TeachersRepository;
 import kz.iitu.hello.domain.specification.CourseSpecification;
 import kz.iitu.hello.exception.CourseLimitExceededException;
@@ -34,9 +34,9 @@ public class PanMaratCourseService {
     private static final String DEFAULT_SORT = "courseName";
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("courseName", "maxStudents", "teacher");
 
-    private final CoursesRepository coursesRepository;
+    private final PanMaratCoursesRepository coursesRepository;
     private final TeachersRepository teachersRepository;
-    private final StudentsRepository studentsRepository;
+    private final PanMaratStudentsRepository studentsRepository;
     private final PanMaratCourseConverter courseConverter;
 
     @Transactional(readOnly = true)

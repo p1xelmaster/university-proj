@@ -4,8 +4,8 @@ import kz.iitu.hello.domain.entity.PanMaratCourse;
 import kz.iitu.hello.domain.entity.PanMaratStudent;
 import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.mapper.PanMaratStudentsMyBatisMapper;
-import kz.iitu.hello.domain.repository.CoursesRepository;
-import kz.iitu.hello.domain.repository.StudentsRepository;
+import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
+import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratStudentConverter;
@@ -40,9 +40,9 @@ public class PanMaratStudentService {
             "gpa", "gpa"
     );
 
-    private final StudentsRepository studentRepository;
+    private final PanMaratStudentsRepository studentRepository;
     private final UsersRepository userRepository;
-    private final CoursesRepository courseRepository;
+    private final PanMaratCoursesRepository courseRepository;
     private final PanMaratStudentsMyBatisMapper studentsMyBatisMapper;
     private final PanMaratStudentConverter studentConverter;
 
