@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class UniverApplication {
+public class PanMaratUniverApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UniverApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PanMaratUniverApplication.class, args);
+    }
 
 }
