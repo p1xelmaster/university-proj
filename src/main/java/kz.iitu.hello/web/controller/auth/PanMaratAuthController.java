@@ -7,10 +7,10 @@ import kz.iitu.hello.domain.entity.User;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.domain.repository.UsersRepository;
 import kz.iitu.hello.security.JwtUtil;
-import kz.iitu.hello.web.dto.auth.AuthResponse;
-import kz.iitu.hello.web.dto.auth.ChangePasswordRequest;
-import kz.iitu.hello.web.dto.auth.LoginRequest;
-import kz.iitu.hello.web.dto.auth.RegisterRequest;
+import kz.iitu.hello.web.dto.auth.PanMaratAuthResponse;
+import kz.iitu.hello.web.dto.auth.PanMaratChangePasswordRequest;
+import kz.iitu.hello.web.dto.auth.PanMaratLoginRequest;
+import kz.iitu.hello.web.dto.auth.PanMaratRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +34,7 @@ public class PanMaratAuthController {
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Authenticate user and return JWT token")
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    public PanMaratAuthResponse login(@RequestBody PanMaratLoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
@@ -43,12 +43,12 @@ public class PanMaratAuthController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         String token = jwtUtil.generateToken(request.getUsername());
-        return new AuthResponse(token, user.getRole(), user.getId());
+        return new PanMaratAuthResponse(token, user.getRole(), user.getId());
     }
 
     @PostMapping("/register")
     @Operation(summary = "Register", description = "Register a new user account (assigned GUEST role)")
-    public AuthResponse register(@RequestBody RegisterRequest request) {
+    public PanMaratAuthResponse register(@RequestBody PanMaratRegisterRequest request) {
         if (usersRepository.findByUserName(request.getUsername()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
         }
@@ -62,12 +62,12 @@ public class PanMaratAuthController {
         usersRepository.save(user);
 
         String token = jwtUtil.generateToken(user.getUserName());
-        return new AuthResponse(token, user.getRole(), user.getId());
+        return new PanMaratAuthResponse(token, user.getRole(), user.getId());
     }
 
     @PatchMapping("/change-password")
     @Operation(summary = "Change password", description = "Change password for the currently authenticated user")
-    public void changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+    public void changePassword(@Valid @RequestBody PanMaratChangePasswordRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
