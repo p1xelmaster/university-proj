@@ -1,6 +1,9 @@
 package kz.iitu.hello.config;
 
-import kz.iitu.hello.domain.entity.*;
+import kz.iitu.hello.domain.entity.PanMaratCourse;
+import kz.iitu.hello.domain.entity.PanMaratStudent;
+import kz.iitu.hello.domain.entity.PanMaratTeacher;
+import kz.iitu.hello.domain.entity.PanMaratUser;
 import kz.iitu.hello.domain.enums.PanMaratDepartment;
 import kz.iitu.hello.domain.enums.PanMaratUserRole;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
@@ -14,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PanMaratDataInitializer implements CommandLineRunner {
+public class DataInitializer implements CommandLineRunner {
 
     private final PanMaratUsersRepository usersRepository;
     private final PanMaratStudentsRepository studentsRepository;
@@ -102,7 +105,7 @@ public class PanMaratDataInitializer implements CommandLineRunner {
         }
     }
 
-    private void ensureLabAdmin() { //labka admin (если запистер бар но недоступно)
+    private void ensureLabAdmin() {
         if (usersRepository.existsByUserNameIgnoreCase("lab_admin")) {
             return;
         }

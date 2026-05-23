@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
-public class PanMaratSecurityConfig {
+public class SecurityConfig {
 
     private final PanMaratJwtFilter jwtFilter;
     private final UserDetailsService userDetailsService;
