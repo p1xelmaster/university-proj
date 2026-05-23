@@ -11,8 +11,8 @@ import kz.iitu.hello.exception.CourseLimitExceededException;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.CourseConverter;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
-import kz.iitu.hello.web.dto.grid.StudentGridDto;
-import kz.iitu.hello.web.dto.grid.TeacherGridDto;
+import kz.iitu.hello.web.dto.grid.PanMaratStudentGridDto;
+import kz.iitu.hello.web.dto.grid.PanMaratTeacherGridDto;
 import kz.iitu.hello.web.dto.search.CourseSearchForm;
 import kz.iitu.hello.web.dto.view.CourseViewDto;
 import lombok.RequiredArgsConstructor;
@@ -61,12 +61,12 @@ public class PanMaratCourseService {
     }
 
     @Transactional(readOnly = true)
-    public List<TeacherGridDto> findAllTeachers() {
+    public List<PanMaratTeacherGridDto> findAllTeachers() {
         return teachersRepository.findAll().stream().map(courseConverter::toTeacherGridDto).toList();
     }
 
     @Transactional(readOnly = true)
-    public List<StudentGridDto> findAllStudents() {
+    public List<PanMaratStudentGridDto> findAllStudents() {
         return studentsRepository.findAll().stream().map(courseConverter::toStudentGridDto).toList();
     }
 
