@@ -6,7 +6,7 @@ import kz.iitu.hello.domain.entity.PanMaratTeacher;
 import kz.iitu.hello.domain.repository.PanMaratCoursesRepository;
 import kz.iitu.hello.domain.repository.PanMaratStudentsRepository;
 import kz.iitu.hello.domain.repository.PanMaratTeachersRepository;
-import kz.iitu.hello.domain.specification.CourseSpecification;
+import kz.iitu.hello.domain.specification.PanMaratCourseSpecification;
 import kz.iitu.hello.exception.CourseLimitExceededException;
 import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.PanMaratCourseConverter;
@@ -56,7 +56,7 @@ public class PanMaratCourseService {
 
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
-        return coursesRepository.findAll(CourseSpecification.withFilters(form), sortedPageable)
+        return coursesRepository.findAll(PanMaratCourseSpecification.withFilters(form), sortedPageable)
                 .map(courseConverter::toViewDto);
     }
 
