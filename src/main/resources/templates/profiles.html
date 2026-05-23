@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile — University</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f0f13; --surface: #1a1a22; --border: #2e2e3e;
+            --accent: #6c63ff; --accent2: #ff6b6b; --text: #e8e8f0;
+            --muted: #7a7a9a; --success: #4ade80;
+            --mono: 'IBM Plex Mono', monospace; --sans: 'IBM Plex Sans', sans-serif;
+        }
+        body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+        nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; height: 56px; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-family: var(--mono); font-weight: 600; font-size: 14px; color: var(--accent); margin-right: 32px; letter-spacing: 0.05em; text-decoration: none; }
+        nav a { display: flex; align-items: center; height: 56px; padding: 0 16px; font-size: 13px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+        nav a:hover { color: var(--text); }
+        nav a.active { color: var(--text); border-bottom-color: var(--accent); }
+        .page { max-width: 900px; margin: 0 auto; padding: 40px 32px; }
+        .page-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 32px; }
+        h1 { font-family: var(--mono); font-size: 22px; font-weight: 600; }
+        h2 { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+        .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+        .card-body { padding: 20px; }
+        .info-grid { display: grid; grid-template-columns: 140px 1fr; gap: 10px 16px; font-size: 13px; }
+        .info-label { color: var(--muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 2px; }
+        .info-value { color: var(--text); }
+        .badge { font-family: var(--mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+        .badge-admin { background: rgba(108,99,255,0.15); color: var(--accent); }
+        .badge-teacher { background: rgba(74,222,128,0.12); color: var(--success); }
+        .badge-student { background: rgba(255,107,107,0.12); color: var(--accent2); }
+
+        /* AVATAR */
+        .avatar-section { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+        .avatar-wrap { flex-shrink: 0; }
+        .avatar-preview { width: 140px; height: 140px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); display: block; }
+        .avatar-placeholder { width: 140px; height: 140px; border-radius: 10px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; font-family: var(--mono); }
+        .avatar-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .avatar-upload { flex: 1; }
+
+        /* UPLOAD FORM */
+        .upload-form { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .file-input-wrap { position: relative; }
+        input[type="file"] { font-size: 13px; font-family: var(--sans); color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; cursor: pointer; }
+        input[type="file"]::-webkit-file-upload-button { background: var(--accent); color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-size: 12px; font-family: var(--sans); font-weight: 600; cursor: pointer; margin-right: 8px; }
+
+        /* BUTTONS */
+        .btn { padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: var(--sans); transition: opacity 0.2s, transform 0.1s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn:active { transform: scale(0.97); }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { opacity: 0.88; }
+        .btn-danger { background: transparent; color: var(--accent2); border: 1px solid transparent; padding: 6px 12px; font-size: 12px; }
+        .btn-danger:hover { border-color: var(--accent2); background: rgba(255,107,107,0.08); }
+        .btn-link { background: transparent; color: var(--accent); border: 1px solid var(--border); padding: 6px 12px; font-size: 12px; }
+        .btn-link:hover { border-color: var(--accent); }
+
+        /* TABLE */
+        table { width: 100%; border-collapse: collapse; }
+        thead tr { border-bottom: 1px solid var(--border); }
+        th { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 10px 16px; text-align: left; }
+        td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid rgba(46,46,62,0.5); vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(108,99,255,0.04); }
+        .empty-row td { color: var(--muted); font-style: italic; text-align: center; padding: 28px; }
+        .td-actions { display: flex; gap: 6px; align-items: center; }
+        .inline { display: inline; }
+
+        /* AUTH PANEL */
+        .auth-panel { margin-bottom: 24px; }
+        .auth-panel-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .auth-label { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+        .auth-form { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .auth-form input[type="text"], .auth-form input[type="password"] { width: 160px; padding: 7px 10px; font-size: 13px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); outline: none; }
+        .auth-btn-row { display: flex; gap: 6px; }
+        .btn-sm { padding: 7px 14px; font-size: 12px; }
+        .auth-status { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+        .auth-ok { color: var(--success); }
+        .auth-none { color: var(--muted); }
+        .auth-error { color: var(--accent2); }
+        .error-banner { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 8px; padding: 10px 16px; margin-bottom: 16px; font-size: 13px; color: var(--accent2); }
+    </style>
+</head>
+<body>
+
+<div class="page" style="padding-bottom:0; padding-top:20px;">
+    <div th:replace="~{fragments/auth :: authPanel}"></div>
+</div>
+
+<nav>
+    <a class="nav-brand" href="/users">🎓 UNIVERSITY</a>
+    <a href="/users">Users</a>
+    <a href="/teachers">Teachers</a>
+    <a href="/students">Students</a>
+    <a href="/courses">Courses</a>
+</nav>
+
+<div class="page">
+    <div class="page-header">
+        <h1>Profile</h1>
+        <span style="font-family:var(--mono);font-size:12px;color:var(--accent);background:rgba(108,99,255,0.12);padding:2px 8px;border-radius:4px;"
+              th:text="${user.userName}"></span>
+    </div>
+
+    <!-- BASE INFO -->
+    <div class="card">
+        <div class="card-header">Base Information</div>
+        <div class="card-body">
+            <div class="info-grid">
+                <span class="info-label">ID</span>
+                <span class="info-value" th:text="'#' + ${user.id}"></span>
+                <span class="info-label">Username</span>
+                <span class="info-value" th:text="${user.userName}"></span>
+                <span class="info-label">Email</span>
+                <span class="info-value" th:text="${user.email}"></span>
+                <span class="info-label">Role</span>
+                <span class="info-value">
+                    <span class="badge"
+                          th:classappend="${user.role.name() == 'ADMIN'} ? 'badge-admin' : (${user.role.name() == 'TEACHER'} ? 'badge-teacher' : 'badge-student')"
+                          th:text="${user.role}"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT INFO -->
+    <div class="card" th:if="${user.role.name() == 'STUDENT' and student != null}">
+        <div class="card-header">Student Information</div>
+        <div class="card-body">
+            <div class="info-grid">
+                <span class="info-label">Name</span>
+                <span class="info-value" th:text="${student.studentName}"></span>
+                <span class="info-label">Age</span>
+                <span class="info-value" th:text="${student.age}"></span>
+                <span class="info-label">Group</span>
+                <span class="info-value" th:text="${student.groupName}"></span>
+                <span class="info-label">GPA</span>
+                <span class="info-value" th:text="${student.gpa}"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEACHER INFO -->
+    <div class="card" th:if="${user.role.name() == 'TEACHER' and teacher != null}">
+        <div class="card-header">Teacher Information</div>
+        <div class="card-body">
+            <div class="info-grid">
+                <span class="info-label">Name</span>
+                <span class="info-value" th:text="${teacher.teacherName}"></span>
+                <span class="info-label">Experience</span>
+                <span class="info-value" th:text="${teacher.experienceYears} + ' years'"></span>
+                <span class="info-label">Department</span>
+                <span class="info-value" th:text="${teacher.department}"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- AVATAR -->
+    <div class="card">
+        <div class="card-header">Avatar</div>
+        <div class="card-body">
+            <div class="avatar-section">
+                <div class="avatar-wrap">
+                    <img class="avatar-preview"
+                         th:if="${avatar != null}"
+                         th:src="@{/api/profiles/files/{id}(id=${avatar.id})}"
+                         alt="Avatar"/>
+                    <div class="avatar-placeholder" th:if="${avatar == null}">No avatar</div>
+                    <div class="avatar-actions" th:if="${avatar != null}">
+                        <a class="btn btn-link"
+                           th:href="@{/api/profiles/files/{id}(id=${avatar.id})}">↓ Download</a>
+                        <form class="inline" method="post"
+                              th:action="@{/profiles/files/{id}/delete(id=${avatar.id})}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="avatar-upload">
+                    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+                        Upload a new avatar (JPEG or PNG, max 5 MB). Replaces the current one.
+                    </p>
+                    <form class="upload-form" method="post" enctype="multipart/form-data"
+                          th:action="@{/profiles/{userId}/avatar(userId=${user.id})}">
+                        <input type="file" name="file" accept=".jpg,.jpeg,.png" required/>
+                        <button type="submit" class="btn btn-primary">Upload Avatar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="card">
+        <div class="card-header">Documents</div>
+        <div class="card-body" style="padding-bottom:0;">
+            <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">
+                Upload one or more PDF documents (max 5 MB each).
+            </p>
+            <form class="upload-form" method="post" enctype="multipart/form-data"
+                  th:action="@{/profiles/{userId}/documents(userId=${user.id})}"
+                  style="margin-bottom:20px;">
+                <input type="file" name="files" accept=".pdf" multiple required/>
+                <button type="submit" class="btn btn-primary">Upload Documents</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>File Name</th>
+                <th>Type</th>
+                <th>Uploaded At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="empty-row" th:if="${#lists.isEmpty(documents)}">
+                <td colspan="5">No documents uploaded yet.</td>
+            </tr>
+            <tr th:each="doc : ${documents}">
+                <td style="font-family:var(--mono);font-size:12px;color:var(--accent);"
+                    th:text="'#' + ${doc.id}"></td>
+                <td th:text="${doc.fileName}"></td>
+                <td style="font-family:var(--mono);font-size:11px;color:var(--muted);"
+                    th:text="${doc.contentType}"></td>
+                <td style="font-size:12px;color:var(--muted);"
+                    th:text="${#temporals.format(doc.uploadedAt, 'dd.MM.yyyy HH:mm')}"></td>
+                <td>
+                    <div class="td-actions">
+                        <a class="btn btn-link"
+                           th:href="@{/api/profiles/files/{id}(id=${doc.id})}">↓ Download</a>
+                        <form class="inline" method="post"
+                              th:action="@{/profiles/files/{id}/delete(id=${doc.id})}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script th:replace="~{fragments/auth :: authScript}"></script>
+</body>
+</html>

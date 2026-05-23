@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root{
+            --primary:#4f46e5;
+            --danger:#dc2626;
+            --bg:#f3f4f6;
+            --card:#ffffff;
+            --border:#e5e7eb;
+            --text:#111827;
+            --muted:#6b7280;
+        }
+        body{
+            font-family:Inter,Arial,sans-serif;
+            background:var(--bg);
+            margin:0;
+            padding:40px 20px;
+            color:var(--text);
+        }
+        .container{max-width:1100px;margin:auto;}
+        .card{
+            background:var(--card);
+            padding:24px;
+            border-radius:12px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+            margin-bottom:32px;
+        }
+        h1{margin-bottom:24px;}
+        .form-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:16px;
+        }
+        label{font-size:0.85rem;color:var(--muted);}
+        input,select{
+            width:100%;
+            padding:10px;
+            border-radius:8px;
+            border:1px solid var(--border);
+        }
+        button{
+            padding:10px 16px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:500;
+        }
+        .btn-primary{background:var(--primary);color:white;}
+        .btn-danger{background:var(--danger);color:white;}
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+        }
+        th,td{padding:14px;}
+        th{background:#f9fafb;color:var(--muted);text-transform:uppercase;font-size:0.8rem;}
+        tr:not(:last-child) td{border-bottom:1px solid var(--border);}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Users</h1>
+
+    <div class="card">
+        <h2 th:text="${editMode} ? 'Edit User' : 'Create User'">Create User</h2>
+        <form th:object="${form}" th:action="${editMode} ? @{/users/{id}(id=${form.id})} : @{/users}" method="post">
+            <input type="hidden" name="_method" value="PUT" th:if="${editMode}"/>
+            <div class="form-grid">
+                <div>
+                    <label>User Name</label>
+                    <input type="text" th:field="*{userName}"/>
+                    <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="email" th:field="*{email}"/>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" th:field="*{password}"/>
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+                <div>
+                    <label>Role</label>
+                    <select th:field="*{role}">
+                        <option value="">Select role</option>
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></span>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn-primary" th:text="${editMode} ? 'Update' : 'Create'">Create</button>
+        </form>
+    </div>
+
+    <h2>All Users</h2>
+    <table>
+        <thead>
+        <tr><th>ID</th><th>User Name</th><th>Email</th><th>Role</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(users)}">
+            <td colspan="5" style="text-align:center">No users yet.</td>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.userName}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <form th:action="@{/users/{id}(id=${user.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit" class="btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

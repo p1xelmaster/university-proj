@@ -1,0 +1,75 @@
+package kz.iitu.hello.web.controller.mvc;
+
+import jakarta.validation.Valid;
+import kz.iitu.hello.service.PanMaratCourseService;
+import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
+import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
+import kz.iitu.hello.web.validations.PanMaratBindingResultValidationUtils;
+import kz.iitu.hello.web.validations.PanMaratCourseFormValidator;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/courses")
+public class PanMaratCoursesController {
+    private final PanMaratCourseService courseService;
+    private final PanMaratCourseFormValidator courseFormValidator;
+
+    @GetMapping
+    public String read(@RequestParam(name = "id", required = false) Long id,
+                       @ModelAttribute("searchForm") PanMaratCourseSearchForm searchForm,
+                       @PageableDefault(size = 10) Pageable pageable,
+                       Model model) {
+        model.addAttribute("editMode", id != null);
+        model.addAttribute("form", courseService.getForm(id));
+        fillCommonAttributes(model, searchForm, pageable);
+        return "courses";
+    }
+
+    @PostMapping
+    public String create(@Valid @ModelAttribute("form") PanMaratCourseFormDto form, BindingResult bindingResult, Model model) {
+        courseFormValidator.validate(form, bindingResult, null);
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
+            return renderFormWithErrors(model, form, false);
+        }
+        courseService.create(form);
+        return "redirect:/courses";
+    }
+
+    @PutMapping("/{id}")
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("form") PanMaratCourseFormDto form, BindingResult bindingResult, Model model) {
+        courseFormValidator.validate(form, bindingResult, form.getId());
+        if (PanMaratBindingResultValidationUtils.hasErrors(bindingResult)) {
+            form.setId(id);
+            return renderFormWithErrors(model, form, true);
+        }
+        courseService.update(id, form);
+        return "redirect:/courses";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        courseService.delete(id);
+        return "redirect:/courses";
+    }
+
+    private String renderFormWithErrors(Model model, PanMaratCourseFormDto form, boolean editMode) {
+        model.addAttribute("editMode", editMode);
+        model.addAttribute("form", form);
+        fillCommonAttributes(model, new PanMaratCourseSearchForm(), Pageable.ofSize(10));
+        return "courses";
+    }
+
+    private void fillCommonAttributes(Model model, PanMaratCourseSearchForm form, Pageable pageable) {
+        model.addAttribute("page", courseService.search(form, pageable));
+        model.addAttribute("searchForm", form);
+        model.addAttribute("teachers", courseService.findAllTeachers());
+        model.addAttribute("students", courseService.findAllStudents());
+    }
+}
