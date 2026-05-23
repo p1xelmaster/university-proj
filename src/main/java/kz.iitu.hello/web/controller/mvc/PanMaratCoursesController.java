@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.mvc;
 import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratCourseService;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
-import kz.iitu.hello.web.dto.search.CourseSearchForm;
+import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.CourseFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class PanMaratCoursesController {
 
     @GetMapping
     public String read(@RequestParam(name = "id", required = false) Long id,
-                       @ModelAttribute("searchForm") CourseSearchForm searchForm,
+                       @ModelAttribute("searchForm") PanMaratCourseSearchForm searchForm,
                        @PageableDefault(size = 10) Pageable pageable,
                        Model model) {
         model.addAttribute("editMode", id != null);
@@ -62,11 +62,11 @@ public class PanMaratCoursesController {
     private String renderFormWithErrors(Model model, PanMaratCourseFormDto form, boolean editMode) {
         model.addAttribute("editMode", editMode);
         model.addAttribute("form", form);
-        fillCommonAttributes(model, new CourseSearchForm(), Pageable.ofSize(10));
+        fillCommonAttributes(model, new PanMaratCourseSearchForm(), Pageable.ofSize(10));
         return "courses";
     }
 
-    private void fillCommonAttributes(Model model, CourseSearchForm form, Pageable pageable) {
+    private void fillCommonAttributes(Model model, PanMaratCourseSearchForm form, Pageable pageable) {
         model.addAttribute("page", courseService.search(form, pageable));
         model.addAttribute("searchForm", form);
         model.addAttribute("teachers", courseService.findAllTeachers());

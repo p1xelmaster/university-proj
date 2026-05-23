@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kz.iitu.hello.service.PanMaratStudentService;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
-import kz.iitu.hello.web.dto.search.StudentSearchForm;
-import kz.iitu.hello.web.dto.view.StudentViewDto;
+import kz.iitu.hello.web.dto.search.PanMaratStudentSearchForm;
+import kz.iitu.hello.web.dto.view.PanMaratStudentViewDto;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.StudentFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +27,8 @@ public class PanMaratStudentsRestController {
 
     @GetMapping
     @Operation(summary = "Search students", description = "Search and paginate students with optional filters")
-    public Page<StudentViewDto> read(StudentSearchForm form,
-                                     @PageableDefault(size = 10) Pageable pageable) {
+    public Page<PanMaratStudentViewDto> read(PanMaratStudentSearchForm form,
+                                             @PageableDefault(size = 10) Pageable pageable) {
         return studentService.search(form, pageable);
     }
 

@@ -12,8 +12,8 @@ import kz.iitu.hello.web.converter.StudentConverter;
 import kz.iitu.hello.web.dto.form.PanMaratStudentFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
-import kz.iitu.hello.web.dto.search.StudentSearchForm;
-import kz.iitu.hello.web.dto.view.StudentViewDto;
+import kz.iitu.hello.web.dto.search.PanMaratStudentSearchForm;
+import kz.iitu.hello.web.dto.view.PanMaratStudentViewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -47,7 +47,7 @@ public class PanMaratStudentService {
     private final StudentConverter studentConverter;
 
     @Transactional(readOnly = true)
-    public Page<StudentViewDto> search(StudentSearchForm form, Pageable pageable) {
+    public Page<PanMaratStudentViewDto> search(PanMaratStudentSearchForm form, Pageable pageable) {
         String requestedSortBy = form.getSortBy() == null ? DEFAULT_SORT : form.getSortBy();
         String sortBy = SORT_COLUMN_MAPPING.getOrDefault(requestedSortBy, SORT_COLUMN_MAPPING.get(DEFAULT_SORT));
         Sort.Direction direction = form.getSortDirection() == null ? Sort.Direction.ASC : form.getSortDirection();

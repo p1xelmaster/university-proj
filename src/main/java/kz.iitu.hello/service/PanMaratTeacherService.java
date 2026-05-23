@@ -12,8 +12,8 @@ import kz.iitu.hello.web.converter.TeacherConverter;
 import kz.iitu.hello.web.dto.form.PanMaratTeacherFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratCourseGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
-import kz.iitu.hello.web.dto.search.TeacherSearchForm;
-import kz.iitu.hello.web.dto.view.TeacherViewDto;
+import kz.iitu.hello.web.dto.search.PanMaratTeacherSearchForm;
+import kz.iitu.hello.web.dto.view.PanMaratTeacherViewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,7 +39,7 @@ public class PanMaratTeacherService {
     private final TeacherConverter teacherConverter;
 
     @Transactional(readOnly = true)
-    public Page<TeacherViewDto> search(TeacherSearchForm form, Pageable pageable) {
+    public Page<PanMaratTeacherViewDto> search(PanMaratTeacherSearchForm form, Pageable pageable) {
         Sort.Direction direction = form.getSortDirection() == null ? Sort.Direction.ASC : form.getSortDirection();
         String requestedSortBy = form.getSortBy() == null ? DEFAULT_SORT : form.getSortBy();
         String sortBy = ALLOWED_SORT_FIELDS.contains(requestedSortBy) ? requestedSortBy : DEFAULT_SORT;

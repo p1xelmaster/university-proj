@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.iitu.hello.service.PanMaratCourseService;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
-import kz.iitu.hello.web.dto.search.CourseSearchForm;
-import kz.iitu.hello.web.dto.view.CourseViewDto;
+import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
+import kz.iitu.hello.web.dto.view.PanMaratCourseViewDto;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.CourseFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ public class PanMaratCoursesRestController {
 
     @GetMapping
     @Operation(summary = "Search courses", description = "Search and paginate courses with optional filters")
-    public Page<CourseViewDto> read(CourseSearchForm form,
-                                    @PageableDefault(size = 10) Pageable pageable) {
+    public Page<PanMaratCourseViewDto> read(PanMaratCourseSearchForm form,
+                                            @PageableDefault(size = 10) Pageable pageable) {
         return courseService.search(form, pageable);
     }
 

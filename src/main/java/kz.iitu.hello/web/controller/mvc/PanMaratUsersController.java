@@ -3,7 +3,7 @@ package kz.iitu.hello.web.controller.mvc;
 import kz.iitu.hello.domain.enums.UserRole;
 import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
-import kz.iitu.hello.web.dto.search.UserSearchForm;
+import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.UserFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class PanMaratUsersController {
 
     @GetMapping
     public String read(@RequestParam(name = "id", required = false) Long id,
-                       @ModelAttribute("searchForm") UserSearchForm searchForm,
+                       @ModelAttribute("searchForm") PanMaratUserSearchForm searchForm,
                        @PageableDefault(size = 10) Pageable pageable,
                        Model model) {
         model.addAttribute("editMode", id != null);
@@ -62,11 +62,11 @@ public class PanMaratUsersController {
     private String renderFormWithErrors(Model model, PanMaratUserFormDto form, boolean editMode) {
         model.addAttribute("editMode", editMode);
         model.addAttribute("form", form);
-        fillCommonAttributes(model, new UserSearchForm(), Pageable.ofSize(10));
+        fillCommonAttributes(model, new PanMaratUserSearchForm(), Pageable.ofSize(10));
         return "users";
     }
 
-    private void fillCommonAttributes(Model model, UserSearchForm form, Pageable pageable) {
+    private void fillCommonAttributes(Model model, PanMaratUserSearchForm form, Pageable pageable) {
         model.addAttribute("page", userService.search(form, pageable));
         model.addAttribute("searchForm", form);
         model.addAttribute("roles", UserRole.values());

@@ -13,8 +13,8 @@ import kz.iitu.hello.web.converter.CourseConverter;
 import kz.iitu.hello.web.dto.form.PanMaratCourseFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratStudentGridDto;
 import kz.iitu.hello.web.dto.grid.PanMaratTeacherGridDto;
-import kz.iitu.hello.web.dto.search.CourseSearchForm;
-import kz.iitu.hello.web.dto.view.CourseViewDto;
+import kz.iitu.hello.web.dto.search.PanMaratCourseSearchForm;
+import kz.iitu.hello.web.dto.view.PanMaratCourseViewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +40,7 @@ public class PanMaratCourseService {
     private final CourseConverter courseConverter;
 
     @Transactional(readOnly = true)
-    public Page<CourseViewDto> search(CourseSearchForm form, Pageable pageable) {
+    public Page<PanMaratCourseViewDto> search(PanMaratCourseSearchForm form, Pageable pageable) {
         Sort sort = pageable.getSort().isSorted() ? pageable.getSort() : Sort.by(Sort.Direction.ASC, DEFAULT_SORT);
 
         if (form.getSortBy() != null && !form.getSortBy().isBlank()) {

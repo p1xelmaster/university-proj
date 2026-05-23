@@ -7,7 +7,7 @@ import kz.iitu.hello.exception.EntityNotFoundException;
 import kz.iitu.hello.web.converter.UserConverter;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
-import kz.iitu.hello.web.dto.search.UserSearchForm;
+import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +31,7 @@ public class PanMaratUserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public Page<PanMaratUserGridDto> search(UserSearchForm form, Pageable pageable) {
+    public Page<PanMaratUserGridDto> search(PanMaratUserSearchForm form, Pageable pageable) {
         String userNameFilter = form.getUsername() == null ? "" : form.getUsername();
         String emailFilter = form.getEmail() == null ? "" : form.getEmail();
         UserRole roleFilter = form.getRole();

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kz.iitu.hello.service.PanMaratUserService;
 import kz.iitu.hello.web.dto.form.PanMaratUserFormDto;
 import kz.iitu.hello.web.dto.grid.PanMaratUserGridDto;
-import kz.iitu.hello.web.dto.search.UserSearchForm;
+import kz.iitu.hello.web.dto.search.PanMaratUserSearchForm;
 import kz.iitu.hello.web.validations.BindingResultValidationUtils;
 import kz.iitu.hello.web.validations.UserFormValidator;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class PanMaratUsersRestController {
 
     @GetMapping
     @Operation(summary = "Search users", description = "Search and paginate users with optional filters")
-    public Page<PanMaratUserGridDto> read(UserSearchForm searchForm,
+    public Page<PanMaratUserGridDto> read(PanMaratUserSearchForm searchForm,
                                           @PageableDefault(size = 10) Pageable pageable) {
         return userService.search(searchForm, pageable);
     }
